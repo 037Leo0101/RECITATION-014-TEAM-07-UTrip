@@ -62,3 +62,25 @@ describe('Server!', () => {
     });
   });
 });
+
+describe('POST /login', () => {
+  // ...
+
+  // Add this test case to the same 'describe' block as the positive test case
+  it('should fail to login with an incorrect password', done => {
+    chai
+      .request(server)
+      .post('/login')
+      .send({ username: 'testuser', password: 'wrongpassword' })
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(res.text).to.include('Incorrect username or password.');
+        done();
+      });
+  });
+});
+  
+
+ 
+
+
