@@ -25,4 +25,21 @@ describe('Server!', () => {
 
   // ===========================================================================
   // TO-DO: Part A Login unit test case
+  describe('POST /login', () => {
+    it('should login successfully and return a 200 status', (done) => {
+      const user = {
+        username: 'testuser', // Replace with a valid registered username
+        password: 'testpassword' // Replace with the corresponding valid password
+      };
+
+      chai.request(server)
+        .post('/login')
+        .send(user)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.should.be.html;
+          done();
+        });
+    });
+  });
 });
