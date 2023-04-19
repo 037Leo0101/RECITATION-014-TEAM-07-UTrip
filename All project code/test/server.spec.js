@@ -26,8 +26,8 @@ describe('Server!', () => {
   describe('POST /register', () => {
     it('should register a new user successfully and return a 200 status', (done) => {
       const newUser = {
-        username: 'testuser',
-        password: 'testpassword'
+        username: 'user',
+        password: 'password'
       };
 
       chai.request(server)
@@ -53,7 +53,7 @@ describe('Server!', () => {
           .post('/register')
           .send({ username: 'testuser', password: 'testpassword' })
           .end((err, res) => {
-            expect(res).to.have.status(200);
+            expect(res).to.have.status(400);
             expect(res.text).to.include('Something went wrong. Please try again');
             done();
           });
@@ -92,7 +92,7 @@ describe('POST /login', () => {
       .post('/login')
       .send({ username: 'testuser', password: 'wrongpassword' })
       .end((err, res) => {
-        expect(res).to.have.status(200);
+        expect(res).to.have.status(400);
         expect(res.text).to.include('Incorrect username or password.');
         done();
       });

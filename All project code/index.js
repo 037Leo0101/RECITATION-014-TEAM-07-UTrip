@@ -100,7 +100,7 @@ app.post('/register', async (req, res) => {
         console.error(error);
 
         // Redirect to the registration page if the insert fails
-        res.render('pages/register', {
+        res.status(400).render('pages/register', {
             error: true,
             message:'Something went wrong. Please try again'
         });
@@ -125,7 +125,7 @@ app.post('/login', async (req, res) => {
                 // If the password is incorrect, throw an error stating "Incorrect username or password."
                 // console.log('Incorrect username or password.')
                 // return res.redirect('/login');
-                return res.render('pages/login' , {
+                return res.status(400).render('pages/login' , {
                     error: true,
                     message: 'Incorrect username or password.'
                 });
@@ -138,7 +138,7 @@ app.post('/login', async (req, res) => {
         })
         .catch(error => {
             console.log(error);
-            return res.render('pages/register', {
+            return res.status(500).render('pages/register', {
                 error: true,
                 message: 'Account not found. Please register first!'
             });
