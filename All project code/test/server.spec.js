@@ -41,6 +41,25 @@ describe('Server!', () => {
     });
   });
 
+  it('should fail to register a user with an existing username', done => {
+    // Register the test user for the first time
+    chai
+      .request(server)
+      .post('/register')
+      .send({ username: 'testuser', password: 'testpassword' })
+      .end((err, res) => {
+        chai
+          .request(server)
+          .post('/register')
+          .send({ username: 'testuser', password: 'testpassword' })
+          .end((err, res) => {
+            expect(res).to.have.status(200);
+            expect(res.text).to.include('Something went wrong. Please try again');
+            done();
+          });
+      });
+  });
+
 
   // ===========================================================================
   // TO-DO: Part A Login unit test case
