@@ -22,6 +22,25 @@ describe('Server!', () => {
         done();
       });
   });
+  
+  describe('POST /register', () => {
+    it('should register a new user successfully and return a 200 status', (done) => {
+      const newUser = {
+        username: 'testuser',
+        password: 'testpassword'
+      };
+
+      chai.request(server)
+        .post('/register')
+        .send(newUser)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.should.be.html;
+          done();
+        });
+    });
+  });
+
 
   // ===========================================================================
   // TO-DO: Part A Login unit test case
