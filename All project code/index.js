@@ -9,6 +9,8 @@ const bodyParser = require('body-parser');
 const session = require('express-session'); // To set the session object. To store or access session data, use the `req.session`, which is (generally) serialized as JSON by the store.
 const bcrypt = require('bcrypt'); //  To hash passwords
 const axios = require('axios'); // To make HTTP requests from our server. We'll learn more about it in Part B.
+const path = require('path');
+const window=require('window')
 
 // *****************************************************
 // <!-- Section 2 : Connect to DB -->
@@ -41,7 +43,7 @@ db.connect()
 
 app.set('view engine', 'ejs'); // set the view engine to EJS
 app.use(bodyParser.json()); // specify the usage of JSON for parsing request body.
-
+app.set('views', path.join(__dirname, "/src/views"))
 // initialize session variables
 app.use(
     session({
@@ -56,6 +58,7 @@ app.use(
         extended: true,
     })
 );
+app.use(express.static(path.join(__dirname, 'public')));
 
 // *****************************************************
 // <!-- Section 4 : API Routes -->
@@ -131,7 +134,7 @@ app.post('/login', async (req, res) => {
             req.session.user = user;
             req.session.save();
             // If the user is found, redirect to /discover route after setting the session.
-            return res.redirect('/discover');
+            return res.redirect('/home');
         })
         .catch(error => {
             console.log(error);
@@ -154,7 +157,49 @@ const auth = (req, res, next) => {
 // Authentication Required
 app.use(auth);
 
+//axios
+// axios({
+//     url: `https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}`, 
+//     method: 'GET',
+//     dataType: 'json',
+//     headers: {
+//         'Accept-Encoding': 'application/json',
+//     },
+//     params: {
+//         appid: process.env.WEATHER-API_KEY,
+//         keyword: '<location>', //you can choose any artist/event here
+//         size: 1,
+//     },
+// })
+//     .then(results => {
+//         console.log(results.data); // the results will be displayed on the terminal if the docker containers are running // Send some parameters
+//     })
+//     .catch(error => {
+//         // Handle errors
+//     });
 
+
+
+// Route: /home
+// Method: GET
+app.get('/home', async (req, res) => {
+    // try {
+    //     const response = await axios.get('https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}', {
+    //         params: {
+    //             apikey: process.env.API_KEY,
+    //             keyword: 'Taylor Swift',
+    //             size: 10,
+    //         },
+    //     });
+    //     const data = response.data._embedded.events;
+    //     res.render('pages/discover', { results: data });
+    // } catch (error) {
+    //     console.error(error);
+    //     res.render('pages/discover', { results: [], error: 'Failed to fetch data' });
+    // }
+    res.render('pages/home');
+    
+});
 
 app.get("/logout", (req, res) => {
     req.session.destroy();
