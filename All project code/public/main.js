@@ -13,10 +13,25 @@ function getWeather(cityName) {
         })
         .then(function (data) {
             const tempCelsius = data.main.temp - 273.15; // Convert Kelvin to Celsius
-            document.getElementById("message").innerText = `${cityName} is now ${tempCelsius.toFixed(2)} °C`; // Display the temperature in Celsius
+            const tempMaxCelsius = data.main.temp_max - 273.15;
+            const tempMinCelsius = data.main.temp_min - 273.15;
+            const sunrise = data.sys.sunrise;
+            const sunset = data.sys.sunset;
+            var dateSunrise = new Date(0);
+            var dateSunset = new Date(0);
+            dateSunrise.setUTCSeconds(sunrise);
+            dateSunset.setUTCSeconds(sunset);
+            document.getElementById("temp").innerText = `${cityName} is now ${tempCelsius.toFixed(2)} °C`; // Display the temperature in Celsius
+            document.getElementById("temp_max").innerText = `Highest Temp in ${cityName} is ${tempMaxCelsius.toFixed(2)} °C`;
+            document.getElementById("temp_min").innerText = `Lowest Temp in ${cityName} is ${tempMinCelsius.toFixed(2)} °C`;
+            document.getElementById("sunrise").innerText = `Sunrise in ${cityName} is ${dateSunrise}. `
+            document.getElementById("sunset").innerText = `Sunset in ${cityName} is ${dateSunset}. `
         })
         .catch(function (error) {
-            document.getElementById("message").innerText = error.message;
+            document.getElementById("temp").innerText = error.message;
+            document.getElementById("temp_max").innerText = error.message;
+            document.getElementById("temp_min").innerText = error.message;
+            document.getElementById("sunrise").innerText = error.message;
             console.log(error);
         });
 }
