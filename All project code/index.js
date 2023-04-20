@@ -10,7 +10,7 @@ const session = require('express-session'); // To set the session object. To sto
 const bcrypt = require('bcrypt'); //  To hash passwords
 const axios = require('axios'); // To make HTTP requests from our server. We'll learn more about it in Part B.
 const path = require('path');
-const window=require('window')
+const window = require('window')
 
 // *****************************************************
 // <!-- Section 2 : Connect to DB -->
@@ -44,7 +44,7 @@ db.connect()
 app.set('view engine', 'ejs'); // set the view engine to EJS
 app.use(bodyParser.json()); // specify the usage of JSON for parsing request body.
 app.set('views', path.join(__dirname, "/src/views"))
-// initialize session variables
+    // initialize session variables
 app.use(
     session({
         secret: process.env.SESSION_SECRET,
@@ -67,8 +67,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // TODO - Include your API routes here
 
 app.get('/welcome', (req, res) => {
-    res.json({status: 'success', message: 'Welcome!'});
-  });
+    res.json({ status: 'success', message: 'Welcome!' });
+});
 
 app.get('/', (req, res) => {
     res.redirect('/login'); //this will call the /login route in the API
@@ -84,7 +84,7 @@ app.get('/register', (req, res) => {
 
 // Route: /register
 // Method: POST
-app.post('/register', async (req, res) => {
+app.post('/register', async(req, res) => {
     try {
         // Hash the password using bcrypt library
         const hash = await bcrypt.hash(req.body.password, 10);
@@ -102,20 +102,20 @@ app.post('/register', async (req, res) => {
         // Redirect to the registration page if the insert fails
         res.status(400).render('pages/register', {
             error: true,
-            message:'Something went wrong. Please try again'
+            message: 'Something went wrong. Please try again'
         });
     }
 });
 
 // Route: /login
 // Method: GET
-app.get('/login', function (req, res) {
+app.get('/login', function(req, res) {
     res.render('pages/login');
 });
 
 // Route: /login
 // Method: POST
-app.post('/login', async (req, res) => {
+app.post('/login', async(req, res) => {
     const { username, password } = req.body;
     db.one(`SELECT * FROM users WHERE username= '${username}' LIMIT 1;`)
         .then(async user => {
@@ -125,7 +125,7 @@ app.post('/login', async (req, res) => {
                 // If the password is incorrect, throw an error stating "Incorrect username or password."
                 // console.log('Incorrect username or password.')
                 // return res.redirect('/login');
-                return res.status(400).render('pages/login' , {
+                return res.status(400).render('pages/login', {
                     error: true,
                     message: 'Incorrect username or password.'
                 });
@@ -182,7 +182,7 @@ app.use(auth);
 
 // Route: /home
 // Method: GET
-app.get('/home', async (req, res) => {
+app.get('/home', async(req, res) => {
     // try {
     //     const response = await axios.get('https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}', {
     //         params: {
@@ -198,7 +198,7 @@ app.get('/home', async (req, res) => {
     //     res.render('pages/discover', { results: [], error: 'Failed to fetch data' });
     // }
     res.render('pages/home');
-    
+
 });
 
 app.get("/logout", (req, res) => {

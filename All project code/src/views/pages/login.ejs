@@ -1,40 +1,48 @@
 <%- include ('../partials/header') %>
+
     <%- include ('../partials/menu') %>
-    <link rel="stylesheet" type="text/css" href="/style.css">
+        <link rel="stylesheet" type="text/css" href="/style.css">
+        <link rel="stylesheet" type="text/css" href="/login_register.css">
+
+        <body class="login-page">
+
+            <body class="blur-menu">
 
 
-        <main>
-            <% if (locals.message) { %>
-                <div
-                  class="alert alert-<%- locals.error ? 'danger' : 'success' %>"
-                  role="alert">
-                  <%= message %>
-                </div>
-                <% } %>
-                
-            <div class="container">
-                <!-- THE REST OF YOUR HTML CODE GOES HERE -->
-                <form action="/login" method="POST">
-                    <h1>Login</h1>
-                    <br>
-                    <label for="username">User name:</label>
-                    <input type="text" id="username" name="username" />
-                    <br>
+                <main>
+                    <% if (locals.message) { %>
+                        <div class="alert alert-<%- locals.error ? 'danger' : 'success' %>" role="alert">
+                            <%= message %>
+                        </div>
+                        <% } %>
 
-                    <br>
-                    <label for="password">Password:</label>
-                    <input type="password" id="password" name="password" />
-                    <br>
+                            <div class="container">
+                                <!-- THE REST OF YOUR HTML CODE GOES HERE -->
+                                <form action="/login" method="POST">
+                                    <h1>Login</h1>
+                                    <br>
+                                    <label for="username">Username:</label>
+                                    <input type="textLogin" id="username" name="username" />
+                                    <br>
 
-                    <br>
-                    <div><h6>Don't have an account? </h6><a href="/register">Register</a></div>
-                    <br>
+                                    <br>
+                                    <label for="password">Password:</label>
+                                    <input type="passwordLogin" id="password" name="password" />
+                                    <br>
 
-                    <br>
-                    <input type="submit" value="Login" />
-                    <br>
-                </form>
-            </div>
-        </main>
+                                    <br>
+                                    <div>
+                                        <h6>Don't have an account? </h6><a href="/register" class="register-btn">Register</a>
+                                    </div>
+                                    <br>
 
-        <%- include ('../partials/footer') %>
+                                    <br>
+                                    <input type="submit" value="Login" />
+                                    <br>
+                                </form>
+                            </div>
+                </main>
+
+            </body>
+
+            <%- include ('../partials/footer') %>

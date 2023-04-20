@@ -1,0 +1,14 @@
+.logout-message {
+    opacity: 0;
+    animation: fadeIn 2s forwards;
+    color: black;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
