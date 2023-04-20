@@ -5,13 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    <link rel="stylesheet" type="text/css" href="/minimalistic.css">
+
     <link rel="stylesheet" type="text/css" href="/style.css">
     <link rel="stylesheet" type="text/css" href="/weather.css">
+    <link rel="stylesheet" type="text/css" href="/home.css">
 </head>
-
-<!-- Rest of your HTML code -->
-
 
 <body>
     <%- include ('../partials/header') %>
@@ -19,8 +17,6 @@
 
             <main>
                 <div class="container">
-                    <!-- THE REST OF YOUR HTML CODE GOES HERE -->
-
                     <input type="text" id="cityNameInput" placeholder="Enter city name" />
                     <button id="sendButton">Get Weather</button>
                     <div id="temp"></div>
@@ -28,13 +24,10 @@
                     <div id="temp_min"></div>
                     <div id="sunrise"></div>
                     <div id="sunset"></div>
-
-                    <!-- Add the reference to main.js before the closing </body> tag -->
                     <script src="/main.js"></script>
 
                 </div>
             </main>
-
             <%- include ('../partials/footer') %>
 </body>
 
