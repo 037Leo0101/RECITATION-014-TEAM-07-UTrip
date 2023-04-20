@@ -1,14 +1,27 @@
-<%- include ('../partials/header') %>
-    <%- include ('../partials/menu') %>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" type="text/css" href="/minimalistic.css">
     <link rel="stylesheet" type="text/css" href="/style.css">
+    <!-- <link rel="stylesheet" type="text/css" href="/weather.css"> -->
+</head>
+
+<!-- Rest of your HTML code -->
 
 
-        <main>
-            <div class="container">
-                <!-- THE REST OF YOUR HTML CODE GOES HERE -->
+<body>
+    <%- include ('../partials/header') %>
+        <%- include ('../partials/menu') %>
 
-                <body>
-                    <input type="text" id="cityNameInput" placeholder="Enter city name" />
+            <main>
+                <div class="container">
+                    <!-- THE REST OF YOUR HTML CODE GOES HERE -->
+
+                    <input type="text" id="cityNameInput" placeholder="Enter City Name" />
                     <button id="sendButton">Get Weather</button>
                     <div id="temp"></div>
                     <div id="temp_max"></div>
@@ -19,8 +32,10 @@
                     <!-- Add the reference to main.js before the closing </body> tag -->
                     <script src="/main.js"></script>
 
-                </body>
-            </div>
-        </main>
+                </div>
+            </main>
 
-        <%- include ('../partials/footer') %>
+            <%- include ('../partials/footer') %>
+</body>
+
+</html>
