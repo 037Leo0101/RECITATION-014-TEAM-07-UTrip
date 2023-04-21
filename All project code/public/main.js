@@ -1,3 +1,5 @@
+let cityID = "";
+
 function getWeather(cityName) {
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=7e675e2b2c0bd91ed1e3b2c16a408a27`;
     fetch(url)
@@ -36,9 +38,74 @@ function getWeather(cityName) {
         });
 }
 
+function getCityID(){
+    const options = {
+        method: 'GET',
+        headers: {
+            'X-RapidAPI-Key': 'ed6ae091f7msh568fc8543e911fbp10257ejsn747206a77891',
+            'X-RapidAPI-Host': 'apidojo-booking-v1.p.rapidapi.com'
+        }
+    };
+    
+}
+
+function getLocation(cityName) {
+
+let tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate() + 1);
+
+let tomorrowDateString = tomorrow.toISOString().split('T')[0];
+let nextWeekDate = new Date(tomorrow.getTime() + 7 * 24 * 60 * 60 * 1000);
+
+let nextWeekDateString = nextWeekDate.toISOString().split('T')[0];
+let dateObject = {
+  "tomorrowDate": tomorrowDateString,
+  "nextWeekDate": nextWeekDateString
+};
+
+    const options = {
+        method: 'GET',
+        headers: {
+            'X-RapidAPI-Key': 'ed6ae091f7msh568fc8543e911fbp10257ejsn747206a77891',
+            'X-RapidAPI-Host': 'apidojo-booking-v1.p.rapidapi.com'
+        }
+    };
+    //gets the cityID
+    fetch(`https://apidojo-booking-v1.p.rapidapi.com/locations/auto-complete?text=${cityName}&languagecode=en-us`, options)
+        .then(response => response.json())
+        .then(response => 
+        {
+            console.log("hello", response)
+
+
+            cityID = response[0].dest_id;
+
+            //Gets the Hotels List Information
+            fetch(`https://apidojo-booking-v1.p.rapidapi.com/properties/list?offset=0&arrival_date=${dateObject.tomorrowDate}&departure_date=${dateObject.nextWeekDate}&guest_qty=1&dest_ids=${cityID}&room_qty=1&search_type=city&children_qty=2&children_age=5%2C7&search_id=none&price_filter_currencycode=USD&order_by=popularity&languagecode=en-us&travel_purpose=leisure`, options)
+                .then(response => response.json())
+                .then(response => {
+                    console.log(response)
+                    listHotels(response.result)
+                })
+                .catch(err => console.error(err));
+        })
+        .catch(err => console.error(err));
+
+}
+
+function listHotels(hotelsArray){
+    for ( i = 0; i < hotelsArray.length; i++){
+        console.log("Hotel Name", hotelsArray[i].hotel_name)
+    }
+    
+}
+
 window.onload = function () {
     document.getElementById("sendButton").onclick = function () {
-        const cityName = document.getElementById("cityNameInput").value;
+        cityName = document.getElementById("cityNameInput").value;
         getWeather(cityName);
+        getLocation(cityName);
+
+    
     };
 };
