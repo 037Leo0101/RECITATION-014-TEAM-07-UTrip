@@ -94,10 +94,33 @@ let dateObject = {
 }
 
 function listHotels(hotelsArray){
-    for ( i = 0; i < hotelsArray.length; i++){
+    const imageContainer = document.getElementById('hotels')
+
+    for ( i = 0; i < 10; i++){
         console.log("Hotel Name", hotelsArray[i].hotel_name)
+
+        const hotelCardHolder = document.createElement('div')
+
+        const hotelImage = document.createElement('img');
+        hotelImage.className = 'image-of-hotel';
+        hotelImage.src =hotelsArray[i].main_photo_url;
+
+        const hotelName = document.createElement('h1');
+        hotelName.className = 'name-of-hotel';
+        hotelName.innerText =hotelsArray[i].hotel_name;
+
+        const hotelAddress = document.createElement('h2');
+        hotelAddress.className = 'address-of-hotel';
+        hotelAddress.innerText =hotelsArray[i].address;
+
+        hotelCardHolder.append(hotelImage);
+        hotelCardHolder.append(hotelName);
+        hotelCardHolder.append(hotelAddress);
+
+        imageContainer.append(hotelCardHolder);
+
     }
-    
+
 }
 
 window.onload = function () {
