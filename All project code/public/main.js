@@ -36,9 +36,68 @@ function getWeather(cityName) {
             document.getElementById("sunrise").innerText = error.message;
             console.log(error);
         });
+
+    const urlWeek = `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=7e675e2b2c0bd91ed1e3b2c16a408a27`;
+
+    fetch(urlWeek)
+        .then(function (response) {
+            if (!response.ok) {
+                if (response.status === 404) {
+                    throw new Error("City not found. Please enter a valid city name.");
+                } else {
+                    throw new Error("An error occurred while fetching the weather data.");
+                }
+            }
+            return response.json();
+        })
+        .then(function (data) {
+            displayWeeklyData(data);
+        })
+        .catch(function (error) {
+            console.error("Error:", error);
+        });
+
 }
 
-function getCityID(){
+function displayWeeklyData(data) {
+    const list = data.list;
+    const weeklyDataContainer = document.getElementById("weekly-data");
+    weeklyDataContainer.innerHTML = ""; // Clear the previous data
+
+    for (let i = 0; i < list.length; i++) {
+        const dayData = list[i];
+        const maxTemp = dayData.main.temp_max - 273.15; // Convert Kelvin to Celsius
+        const minTemp = dayData.main.temp_min - 273.15; // Convert Kelvin to Celsius
+        const weatherDescription = dayData.weather[0].description;
+        const dateTime = dayData.dt_txt;
+
+        const dayContainer = document.createElement("div");
+        dayContainer.className = "day-container";
+
+        const dayHeader = document.createElement("h4");
+        dayHeader.innerText = `Date: ${dateTime}`;
+        dayContainer.appendChild(dayHeader);
+
+        const maxTempParagraph = document.createElement("p");
+        maxTempParagraph.innerText = `Max temperature: ${maxTemp.toFixed(2)}°C`;
+        dayContainer.appendChild(maxTempParagraph);
+
+        const minTempParagraph = document.createElement("p");
+        minTempParagraph.innerText = `Min temperature: ${minTemp.toFixed(2)}°C`;
+        dayContainer.appendChild(minTempParagraph);
+
+        const weatherDescriptionParagraph = document.createElement("p");
+        weatherDescriptionParagraph.innerText = `Weather: ${weatherDescription}`;
+        dayContainer.appendChild(weatherDescriptionParagraph);
+
+        weeklyDataContainer.appendChild(dayContainer);
+    }
+}
+
+
+
+
+function getCityID() {
     const options = {
         method: 'GET',
         headers: {
@@ -46,22 +105,22 @@ function getCityID(){
             'X-RapidAPI-Host': 'apidojo-booking-v1.p.rapidapi.com'
         }
     };
-    
+
 }
 
 function getLocation(cityName) {
 
-let tomorrow = new Date();
-tomorrow.setDate(tomorrow.getDate() + 1);
+    let tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
 
-let tomorrowDateString = tomorrow.toISOString().split('T')[0];
-let nextWeekDate = new Date(tomorrow.getTime() + 7 * 24 * 60 * 60 * 1000);
+    let tomorrowDateString = tomorrow.toISOString().split('T')[0];
+    let nextWeekDate = new Date(tomorrow.getTime() + 7 * 24 * 60 * 60 * 1000);
 
-let nextWeekDateString = nextWeekDate.toISOString().split('T')[0];
-let dateObject = {
-  "tomorrowDate": tomorrowDateString,
-  "nextWeekDate": nextWeekDateString
-};
+    let nextWeekDateString = nextWeekDate.toISOString().split('T')[0];
+    let dateObject = {
+        "tomorrowDate": tomorrowDateString,
+        "nextWeekDate": nextWeekDateString
+    };
 
     const options = {
         method: 'GET',
@@ -73,8 +132,7 @@ let dateObject = {
     //gets the cityID
     fetch(`https://apidojo-booking-v1.p.rapidapi.com/locations/auto-complete?text=${cityName}&languagecode=en-us`, options)
         .then(response => response.json())
-        .then(response => 
-        {
+        .then(response => {
             console.log("hello", response)
 
 
@@ -93,25 +151,25 @@ let dateObject = {
 
 }
 
-function listHotels(hotelsArray){
+function listHotels(hotelsArray) {
     const imageContainer = document.getElementById('hotels')
 
-    for ( i = 0; i < 10; i++){
+    for (i = 0; i < 10; i++) {
         console.log("Hotel Name", hotelsArray[i].hotel_name)
 
         const hotelCardHolder = document.createElement('div')
 
         const hotelImage = document.createElement('img');
         hotelImage.className = 'image-of-hotel';
-        hotelImage.src =hotelsArray[i].main_photo_url;
+        hotelImage.src = hotelsArray[i].main_photo_url;
 
         const hotelName = document.createElement('h1');
         hotelName.className = 'name-of-hotel';
-        hotelName.innerText =hotelsArray[i].hotel_name;
+        hotelName.innerText = hotelsArray[i].hotel_name;
 
         const hotelAddress = document.createElement('h2');
         hotelAddress.className = 'address-of-hotel';
-        hotelAddress.innerText =hotelsArray[i].address;
+        hotelAddress.innerText = hotelsArray[i].address;
 
         hotelCardHolder.append(hotelImage);
         hotelCardHolder.append(hotelName);
@@ -129,6 +187,6 @@ window.onload = function () {
         getWeather(cityName);
         getLocation(cityName);
 
-    
+
     };
 };
