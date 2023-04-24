@@ -76,7 +76,7 @@ function displayWeeklyData(data) {
         dayContainer.className = "day-container";
 
         const dayHeader = document.createElement("h4");
-        dayTime=dayData.dt_txt
+        dayTime = dayData.dt_txt
         dayHeader.innerText = `${dayTime}`;
         dayContainer.appendChild(dayHeader);
 
@@ -161,10 +161,14 @@ function getLocation(cityName) {
 function listHotels(hotelsArray) {
     const imageContainer = document.getElementById('hotels')
     imageContainer.innerHTML = ""
+    // Sort hotels by highest to lowest review score
+    hotelsArray.sort((a, b) => b.review_score - a.review_score);
 
     for (i = 0; i < 10; i++) {
-        console.log("Hotel Name", hotelsArray[i].hotel_name)
 
+        const hotel = hotelsArray[i];
+        console.log("Hotel Name", hotel.hotel_name)
+        
         const hotelCardHolder = document.createElement('div')
 
         const hotelImage = document.createElement('img');
@@ -179,9 +183,27 @@ function listHotels(hotelsArray) {
         hotelAddress.className = 'address-of-hotel';
         hotelAddress.innerText = hotelsArray[i].address;
 
+        // Display the review score of the hotel
+        const hotelReviewScore = document.createElement('p');
+        hotelReviewScore.className = 'review-score-of-hotel';
+        hotelReviewScore.innerText = `Review Score: ${hotelsArray[i].review_score}`;
+
+
+        // Create the "Go" button
+        const goButton = document.createElement('button');
+        goButton.innerText = 'Go';
+        goButton.onclick = (function(hotel) {
+            return function() {
+                window.open(hotel.url, '_blank');
+            }
+        })(hotel);
+
+        // Wrap the hotel card
         hotelCardHolder.append(hotelImage);
         hotelCardHolder.append(hotelName);
         hotelCardHolder.append(hotelAddress);
+        hotelCardHolder.append(hotelReviewScore); // Add the review score to the card
+        hotelCardHolder.append(goButton); // Add the "Go" button to the card
 
         imageContainer.append(hotelCardHolder);
 
