@@ -69,14 +69,20 @@ function displayWeeklyData(data) {
         const maxTemp = dayData.main.temp_max - 273.15; // Convert Kelvin to Celsius
         const minTemp = dayData.main.temp_min - 273.15; // Convert Kelvin to Celsius
         const weatherDescription = dayData.weather[0].description;
-        const dateTime = dayData.dt_txt;
+        const weatherIconCode = dayData.weather[0].icon;
+        const weatherIconUrl = `https://openweathermap.org/img/wn/${weatherIconCode}@2x.png`;
 
         const dayContainer = document.createElement("div");
         dayContainer.className = "day-container";
 
         const dayHeader = document.createElement("h4");
-        dayHeader.innerText = `Date: ${dateTime}`;
+        dayTime=dayData.dt_txt
+        dayHeader.innerText = `${dayTime}`;
         dayContainer.appendChild(dayHeader);
+
+        const weatherIcon = document.createElement("img");
+        weatherIcon.src = weatherIconUrl;
+        dayContainer.appendChild(weatherIcon);
 
         const maxTempParagraph = document.createElement("p");
         maxTempParagraph.innerText = `Max temperature: ${maxTemp.toFixed(2)}°C`;
@@ -93,6 +99,7 @@ function displayWeeklyData(data) {
         weeklyDataContainer.appendChild(dayContainer);
     }
 }
+
 
 
 
@@ -153,6 +160,7 @@ function getLocation(cityName) {
 
 function listHotels(hotelsArray) {
     const imageContainer = document.getElementById('hotels')
+    imageContainer.innerHTML = ""
 
     for (i = 0; i < 10; i++) {
         console.log("Hotel Name", hotelsArray[i].hotel_name)
