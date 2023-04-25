@@ -70,6 +70,12 @@ app.get('/welcome', (req, res) => {
     res.json({ status: 'success', message: 'Welcome!' });
 });
 
+app.get('/cart', (req, res) => {
+    res.redirect('pages/cart'); 
+});
+
+
+
 app.get('/', (req, res) => {
     res.redirect('/login'); //this will call the /login route in the API
 });
