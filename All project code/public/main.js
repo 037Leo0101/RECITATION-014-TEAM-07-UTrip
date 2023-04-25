@@ -188,7 +188,6 @@ function listHotels(hotelsArray) {
         hotelReviewScore.className = 'review-score-of-hotel';
         hotelReviewScore.innerText = `Review Score: ${hotelsArray[i].review_score}`;
 
-
         // Create the "Go" button
         const goButton = document.createElement('button');
         goButton.innerText = 'Go';
@@ -198,6 +197,18 @@ function listHotels(hotelsArray) {
             }
         })(hotel);
 
+        // Create the button to add the hotel to the cart and direct the user to the cart
+        const goButtonTwo = document.createElement('button');
+        goButtonTwo.innerText = 'Place hotel in cart';
+        (function(index) { // This function is necessary for each button to have a different index
+            goButtonTwo.addEventListener("click", function() {
+              let hotelXNameTemp = 'hotel' + index + 'name';
+              sessionStorage.setItem(hotelXNameTemp, hotelsArray[index].hotel_name);
+              window.location.href = 'cart?num=' + index; // Actually passes which hotel was selected
+            });
+        })(i);
+
+
         // Wrap the hotel card
         hotelCardHolder.append(hotelImage);
         hotelCardHolder.append(hotelName);
@@ -205,10 +216,18 @@ function listHotels(hotelsArray) {
         hotelCardHolder.append(hotelReviewScore); // Add the review score to the card
         hotelCardHolder.append(goButton); // Add the "Go" button to the card
 
+        hotelCardHolder.append(goButtonTwo);
+
         imageContainer.append(hotelCardHolder);
 
     }
 
+}
+
+function loadCart() { // This function is called when the cart page is loaded
+    let sessionOutput = sessionStorage.getItem('hotel' + window.location.href.split('=')[1] + 'name');
+    console.log('Session output: ' + sessionOutput);
+    document.getElementById('cartHotelData').innerText = sessionOutput;
 }
 
 window.onload = function () {
@@ -216,7 +235,5 @@ window.onload = function () {
         cityName = document.getElementById("cityNameInput").value;
         getWeather(cityName);
         getLocation(cityName);
-
-
     };
 };
