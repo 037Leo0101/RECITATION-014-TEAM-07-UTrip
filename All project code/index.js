@@ -73,7 +73,7 @@ app.get('/welcome', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-    res.redirect('/home'); //this will call the /login route in the API
+    res.redirect('/login'); //this will call the /login route in the API
 });
 
 app.get('/cart', (req, res) => {
