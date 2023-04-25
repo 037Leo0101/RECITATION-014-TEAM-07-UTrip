@@ -3,7 +3,7 @@ let cityID = "";
 function getWeather(cityName) {
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=7e675e2b2c0bd91ed1e3b2c16a408a27`;
     fetch(url)
-        .then(function (response) {
+        .then(function(response) {
             if (!response.ok) {
                 if (response.status === 404) {
                     throw new Error("City not found. Please enter a valid city name.");
@@ -13,34 +13,32 @@ function getWeather(cityName) {
             }
             return response.json();
         })
-        .then(function (data) {
-            const tempCelsius = data.main.temp - 273.15; // Convert Kelvin to Celsius
-            const tempMaxCelsius = data.main.temp_max - 273.15;
-            const tempMinCelsius = data.main.temp_min - 273.15;
-            const sunrise = data.sys.sunrise;
-            const sunset = data.sys.sunset;
-            var dateSunrise = new Date(0);
-            var dateSunset = new Date(0);
-            dateSunrise.setUTCSeconds(sunrise);
-            dateSunset.setUTCSeconds(sunset);
-            document.getElementById("temp").innerText = `${cityName} is now ${tempCelsius.toFixed(2)} °C`; // Display the temperature in Celsius
-            document.getElementById("temp_max").innerText = `Highest Temp in ${cityName} is ${tempMaxCelsius.toFixed(2)} °C`;
-            document.getElementById("temp_min").innerText = `Lowest Temp in ${cityName} is ${tempMinCelsius.toFixed(2)} °C`;
-            document.getElementById("sunrise").innerText = `Sunrise in ${cityName} is ${dateSunrise}. `
-            document.getElementById("sunset").innerText = `Sunset in ${cityName} is ${dateSunset}. `
+        .then(function(data) {
+            // const tempCelsius = data.main.temp - 273.15; // Convert Kelvin to Celsius
+            // const tempMaxCelsius = data.main.temp_max - 273.15;
+            // const tempMinCelsius = data.main.temp_min - 273.15;
+            // const sunrise = data.sys.sunrise;
+            // const sunset = data.sys.sunset;
+            // var dateSunrise = new Date(0);
+            // var dateSunset = new Date(0);
+            // dateSunrise.setUTCSeconds(sunrise);
+            // dateSunset.setUTCSeconds(sunset);
+            // document.getElementById("temp").innerText = `${tempCelsius.toFixed(2)} °C`; // Display the temperature in Celsius// Display the temperature in Celsius
+            // document.getElementById("temp_max").innerText = `High ${tempMaxCelsius.toFixed(2)} °C`;
+            // document.getElementById("temp_min").innerText = `Low ${tempMinCelsius.toFixed(2)} °C`;
+            // document.getElementById("sunrise").innerText = `Sunrise ${dateSunrise.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})} `;
+            // document.getElementById("sunset").innerText = `Sunset ${dateSunset.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})} `;
         })
-        .catch(function (error) {
+        .catch(function(error) {
             document.getElementById("temp").innerText = error.message;
-            document.getElementById("temp_max").innerText = error.message;
-            document.getElementById("temp_min").innerText = error.message;
-            document.getElementById("sunrise").innerText = error.message;
+
             console.log(error);
         });
 
     const urlWeek = `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=7e675e2b2c0bd91ed1e3b2c16a408a27`;
 
     fetch(urlWeek)
-        .then(function (response) {
+        .then(function(response) {
             if (!response.ok) {
                 if (response.status === 404) {
                     throw new Error("City not found. Please enter a valid city name.");
@@ -50,10 +48,10 @@ function getWeather(cityName) {
             }
             return response.json();
         })
-        .then(function (data) {
+        .then(function(data) {
             displayWeeklyData(data);
         })
-        .catch(function (error) {
+        .catch(function(error) {
             console.error("Error:", error);
         });
 
@@ -64,40 +62,78 @@ function displayWeeklyData(data) {
     const weeklyDataContainer = document.getElementById("weekly-data");
     weeklyDataContainer.innerHTML = ""; // Clear the previous data
 
+    const table = document.createElement("table");
+    table.className = "weather-table";
+
+    const headerRow = document.createElement("tr");
+
+    const dayHeader = document.createElement("th");
+    dayHeader.innerText = "Day";
+    headerRow.appendChild(dayHeader);
+
+    const weatherIconHeader = document.createElement("th");
+    weatherIconHeader.innerText = " ";
+    headerRow.appendChild(weatherIconHeader);
+
+    const maxTempHeader = document.createElement("th");
+    maxTempHeader.innerText = "High";
+    headerRow.appendChild(maxTempHeader);
+
+    const minTempHeader = document.createElement("th");
+    minTempHeader.innerText = "Low";
+    headerRow.appendChild(minTempHeader);
+
+    const weatherDescriptionHeader = document.createElement("th");
+    weatherDescriptionHeader.innerText = "Weather";
+    headerRow.appendChild(weatherDescriptionHeader);
+
+    table.appendChild(headerRow);
+
     for (let i = 0; i < list.length; i++) {
         const dayData = list[i];
         const maxTemp = dayData.main.temp_max - 273.15; // Convert Kelvin to Celsius
         const minTemp = dayData.main.temp_min - 273.15; // Convert Kelvin to Celsius
-        const weatherDescription = dayData.weather[0].description;
+        const weatherDescription =
+            dayData.weather[0].description.charAt(0).toUpperCase() +
+            dayData.weather[0].description.slice(1);
         const weatherIconCode = dayData.weather[0].icon;
         const weatherIconUrl = `https://openweathermap.org/img/wn/${weatherIconCode}@2x.png`;
 
-        const dayContainer = document.createElement("div");
-        dayContainer.className = "day-container";
+        const dayContainer = document.createElement("tr");
 
-        const dayHeader = document.createElement("h4");
-        dayTime = dayData.dt_txt
-        dayHeader.innerText = `${dayTime}`;
+        const dayHeader = document.createElement("td");
+        const date = new Date(dayData.dt_txt);
+        const options = { weekday: "long", month: "short", day: "numeric" };
+        const formattedDate = date.toLocaleDateString("en-US", options);
+        dayHeader.innerText = formattedDate;
         dayContainer.appendChild(dayHeader);
 
+        const weatherIconCell = document.createElement("td");
         const weatherIcon = document.createElement("img");
         weatherIcon.src = weatherIconUrl;
-        dayContainer.appendChild(weatherIcon);
+        weatherIcon.alt = weatherDescription;
+        weatherIconCell.appendChild(weatherIcon);
+        dayContainer.appendChild(weatherIconCell);
 
-        const maxTempParagraph = document.createElement("p");
-        maxTempParagraph.innerText = `Max temperature: ${maxTemp.toFixed(2)}°C`;
-        dayContainer.appendChild(maxTempParagraph);
+        const maxTempCell = document.createElement("td");
+        maxTempCell.innerText = `${maxTemp.toFixed(0)}°C`;
+        maxTempCell.className = "temp-cell max-temp";
+        dayContainer.appendChild(maxTempCell);
 
-        const minTempParagraph = document.createElement("p");
-        minTempParagraph.innerText = `Min temperature: ${minTemp.toFixed(2)}°C`;
-        dayContainer.appendChild(minTempParagraph);
+        const minTempCell = document.createElement("td");
+        minTempCell.innerText = `${minTemp.toFixed(0)}°C`;
+        minTempCell.className = "temp-cell min-temp";
+        dayContainer.appendChild(minTempCell);
 
-        const weatherDescriptionParagraph = document.createElement("p");
-        weatherDescriptionParagraph.innerText = `Weather: ${weatherDescription}`;
-        dayContainer.appendChild(weatherDescriptionParagraph);
+        const weatherDescriptionCell = document.createElement("td");
+        weatherDescriptionCell.className = "weather-description-cell";
+        weatherDescriptionCell.innerText = weatherDescription;
+        dayContainer.appendChild(weatherDescriptionCell);
 
-        weeklyDataContainer.appendChild(dayContainer);
+        table.appendChild(dayContainer);
     }
+
+    weeklyDataContainer.appendChild(table);
 }
 
 
@@ -161,14 +197,14 @@ function getLocation(cityName) {
 function listHotels(hotelsArray) {
     const imageContainer = document.getElementById('hotels')
     imageContainer.innerHTML = ""
-    // Sort hotels by highest to lowest review score
+        // Sort hotels by highest to lowest review score
     hotelsArray.sort((a, b) => b.review_score - a.review_score);
 
     for (i = 0; i < 10; i++) {
 
         const hotel = hotelsArray[i];
         console.log("Hotel Name", hotel.hotel_name)
-        
+
         const hotelCardHolder = document.createElement('div')
 
         const hotelImage = document.createElement('img');
@@ -211,8 +247,8 @@ function listHotels(hotelsArray) {
 
 }
 
-window.onload = function () {
-    document.getElementById("sendButton").onclick = function () {
+window.onload = function() {
+    document.getElementById("sendButton").onclick = function() {
         cityName = document.getElementById("cityNameInput").value;
         getWeather(cityName);
         getLocation(cityName);
