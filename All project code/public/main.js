@@ -269,7 +269,7 @@ function listHotels(hotelsArray) {
             goButtonTwo.addEventListener("click", function() {
                 let hotelXNameTemp = 'hotel' + index + 'name';
                 sessionStorage.setItem(hotelXNameTemp, hotelsArray[index].hotel_name);
-                window.location.href = 'cart?num=' + index; // Actually passes which hotel was selected
+                window.location.href = 'trips?num=' + index; // Actually passes which hotel was selected
             });
         })(i);
 
@@ -289,16 +289,32 @@ function listHotels(hotelsArray) {
 
 }
 
-function loadCart() { // This function is called when the cart page is loaded
-    let sessionOutput = sessionStorage.getItem('hotel' + window.location.href.split('=')[1] + 'name');
-    console.log('Session output: ' + sessionOutput);
-    document.getElementById('cartHotelData').innerText = sessionOutput;
-}
+function loadTrips() { // This function is called when the cart page is loaded
+    let hotelNum = window.location.href.split('=')[1];
+
+    let savedHotels = (sessionStorage.getItem('savedHotels'));
+    if (!savedHotels.includes(hotelNum)) {
+        savedHotels += hotelNum + ',';
+    };
+    console.log(savedHotels);
+
+    sessionStorage.setItem('savedHotels', savedHotels);
+    let innerTexting = '';
+    savedHotels.split(',').forEach(function(hotelIndex) {
+        console.log('hotelIndex: ' + hotelIndex);
+        if (hotelIndex) {
+            innerTexting += sessionStorage.getItem('hotel' + hotelIndex + 'name') + '\n';
+        };
+    });
+    
+    document.getElementById('cartHotelData').innerText = innerTexting;
+};
 
 window.onload = function() {
     document.getElementById("sendButton").onclick = function() {
         cityName = document.getElementById("cityNameInput").value;
         getWeather(cityName);
         getLocation(cityName);
+        sessionStorage.setItem('savedHotels', '');
     };
 };
