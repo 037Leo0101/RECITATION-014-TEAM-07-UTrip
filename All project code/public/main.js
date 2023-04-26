@@ -176,6 +176,10 @@ function displayWeeklyData(data) {
 
     const headerRow = document.createElement("tr");
 
+    const hourHeader = document.createElement("th"); // New table header for hour
+    hourHeader.innerText = "Hour";
+    headerRow.appendChild(hourHeader);
+
     const dayHeader = document.createElement("th");
     dayHeader.innerText = "Day";
     headerRow.appendChild(dayHeader);
@@ -210,12 +214,19 @@ function displayWeeklyData(data) {
 
         const dayContainer = document.createElement("tr");
 
-        const dayHeader = document.createElement("td");
+        const hourCell = document.createElement("td"); // New table data cell for hour
         const date = new Date(dayData.dt_txt);
+        let hour = date.getHours();
+        let amOrPm = hour < 12 ? "AM" : "PM";
+        hour = hour % 12 || 12;
+        hourCell.innerText = `${hour}:00 ${amOrPm}`;
+        dayContainer.appendChild(hourCell);
+
+        const dayHeaderCell = document.createElement("td");
         const options = { weekday: "long", month: "short", day: "numeric" };
         const formattedDate = date.toLocaleDateString("en-US", options);
-        dayHeader.innerText = formattedDate;
-        dayContainer.appendChild(dayHeader);
+        dayHeaderCell.innerText = formattedDate;
+        dayContainer.appendChild(dayHeaderCell);
 
         const weatherIconCell = document.createElement("td");
         const weatherIcon = document.createElement("img");
@@ -242,8 +253,13 @@ function displayWeeklyData(data) {
         table.appendChild(dayContainer);
     }
 
+
+
+
     weeklyDataContainer.appendChild(table);
 }
+
+
 
 
 
