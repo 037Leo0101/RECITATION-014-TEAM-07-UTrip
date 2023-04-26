@@ -20,14 +20,16 @@
                 <div class="container">
                     <input type="text" id="cityNameInput" placeholder="Take me to..." />
                     <button id="sendButton">Get Weather</button>
-                    <div id="temp"></div>
-                    <div id="temp_max"></div>
-                    <div id="temp_min"></div>
-                    <div id="sunrise"></div>
-                    <div id="sunset"></div>
-                    <script src="/main.js"></script>
+                    <div class="temperature-container">
+                        <h2 id="cityName"></h2>
+                        <div id="temp"></div>
+                        <div id="temp_max"></div>
+                        <div id="temp_min"></div>
+                    </div>
 
-                    <!-- Add this inside the body of home.ejs -->
+
+
+                    <script src="/main.js"></script>
                     <div id="weekly-data"></div>
 
 
