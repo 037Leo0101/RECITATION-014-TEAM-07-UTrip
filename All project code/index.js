@@ -76,8 +76,8 @@ app.get('/', (req, res) => {
     res.redirect('/login'); //this will call the /login route in the API
 });
 
-app.get('/cart', (req, res) => {
-    res.render('pages/cart');
+app.get('/trips', (req, res) => {
+    res.render('pages/trips');
 });
 
 
