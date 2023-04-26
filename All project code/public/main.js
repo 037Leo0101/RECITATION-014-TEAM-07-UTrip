@@ -79,6 +79,93 @@ function getWeather(cityName) {
 
 }
 
+// function displayWeeklyData(data) {
+//     const list = data.list;
+//     const weeklyDataContainer = document.getElementById("weekly-data");
+//     weeklyDataContainer.innerHTML = ""; // Clear the previous data
+
+//     const table = document.createElement("table");
+//     table.className = "weather-table";
+
+//     const headerRow = document.createElement("tr");
+
+//     const dayHeader = document.createElement("th");
+//     dayHeader.innerText = "Day";
+//     headerRow.appendChild(dayHeader);
+
+//     const weatherIconHeader = document.createElement("th");
+//     weatherIconHeader.innerText = " ";
+//     headerRow.appendChild(weatherIconHeader);
+
+//     const maxTempHeader = document.createElement("th");
+//     maxTempHeader.innerText = "High";
+//     headerRow.appendChild(maxTempHeader);
+
+//     const minTempHeader = document.createElement("th");
+//     minTempHeader.innerText = "Low";
+//     headerRow.appendChild(minTempHeader);
+
+//     const weatherDescriptionHeader = document.createElement("th");
+//     weatherDescriptionHeader.innerText = "Weather";
+//     headerRow.appendChild(weatherDescriptionHeader);
+
+//     table.appendChild(headerRow);
+
+//     for (let i = 0; i < list.length; i++) {
+//         const dayData = list[i];
+//         const maxTemp = dayData.main.temp_max - 273.15; // Convert Kelvin to Celsius
+//         const minTemp = dayData.main.temp_min - 273.15; // Convert Kelvin to Celsius
+//         const weatherDescription =
+//             dayData.weather[0].description.charAt(0).toUpperCase() +
+//             dayData.weather[0].description.slice(1);
+//         const weatherIconCode = dayData.weather[0].icon;
+//         const weatherIconUrl = `https://openweathermap.org/img/wn/${weatherIconCode}@2x.png`;
+
+//         const dayContainer = document.createElement("tr");
+
+//         const dayHeader = document.createElement("td");
+//         const date = new Date(dayData.dt_txt);
+//         const options = {
+//             weekday: "long",
+//             month: "long",
+//             day: "numeric",
+//             hour: "numeric",
+//             minute: "2-digit",
+//             hourCycle: "h12"
+//         };
+//         const formattedDate = date.toLocaleString("en-US", options);
+//         dayHeader.innerText = formattedDate;
+//         dayContainer.appendChild(dayHeader);
+
+//         const weatherIconCell = document.createElement("td");
+//         const weatherIcon = document.createElement("img");
+//         weatherIcon.src = weatherIconUrl;
+//         weatherIcon.alt = weatherDescription;
+//         weatherIconCell.appendChild(weatherIcon);
+//         dayContainer.appendChild(weatherIconCell);
+
+//         const maxTempCell = document.createElement("td");
+//         maxTempCell.innerText = `${maxTemp.toFixed(0)}°C`;
+//         maxTempCell.className = "temp-cell max-temp";
+//         dayContainer.appendChild(maxTempCell);
+
+//         const minTempCell = document.createElement("td");
+//         minTempCell.innerText = `${minTemp.toFixed(0)}°C`;
+//         minTempCell.className = "temp-cell min-temp";
+//         dayContainer.appendChild(minTempCell);
+
+//         const weatherDescriptionCell = document.createElement("td");
+//         weatherDescriptionCell.className = "weather-description-cell";
+//         weatherDescriptionCell.innerText = weatherDescription;
+//         dayContainer.appendChild(weatherDescriptionCell);
+
+//         table.appendChild(dayContainer);
+//     }
+
+//     weeklyDataContainer.appendChild(table);
+// }
+
+
 function displayWeeklyData(data) {
     const list = data.list;
     const weeklyDataContainer = document.getElementById("weekly-data");
@@ -125,15 +212,8 @@ function displayWeeklyData(data) {
 
         const dayHeader = document.createElement("td");
         const date = new Date(dayData.dt_txt);
-        const options = {
-            weekday: "long",
-            month: "long",
-            day: "numeric",
-            hour: "numeric",
-            minute: "2-digit",
-            hourCycle: "h12"
-        };
-        const formattedDate = date.toLocaleString("en-US", options);
+        const options = { weekday: "long", month: "short", day: "numeric" };
+        const formattedDate = date.toLocaleDateString("en-US", options);
         dayHeader.innerText = formattedDate;
         dayContainer.appendChild(dayHeader);
 
@@ -224,17 +304,19 @@ function getLocation(cityName) {
 }
 
 function listHotels(hotelsArray) {
-    const imageContainer = document.getElementById('hotels')
-    imageContainer.innerHTML = ""
-        // Sort hotels by highest to lowest review score
+    const imageContainer = document.getElementById('hotels');
+    imageContainer.innerHTML = "";
+
+    // Sort hotels by highest to lowest review score
     hotelsArray.sort((a, b) => b.review_score - a.review_score);
 
-    for (i = 0; i < 10; i++) {
+    for (i = 0; i < 24; i++) {
 
         const hotel = hotelsArray[i];
-        console.log("Hotel Name", hotel.hotel_name)
+        console.log("Hotel Name", hotel.hotel_name);
 
-        const hotelCardHolder = document.createElement('div')
+        const hotelCardHolder = document.createElement('div');
+        hotelCardHolder.className = 'hotel-card';
 
         const hotelImage = document.createElement('img');
         hotelImage.className = 'image-of-hotel';
@@ -248,46 +330,45 @@ function listHotels(hotelsArray) {
         hotelAddress.className = 'address-of-hotel';
         hotelAddress.innerText = hotelsArray[i].address;
 
-        // Display the review score of the hotel
         const hotelReviewScore = document.createElement('p');
         hotelReviewScore.className = 'review-score-of-hotel';
         hotelReviewScore.innerText = `Review Score: ${hotelsArray[i].review_score}`;
 
-        // Create the "Go" button
+        // ...
         const goButton = document.createElement('button');
         goButton.innerText = 'Visit';
+        goButton.className = 'button'; // Add the new button class
         goButton.onclick = (function(hotel) {
             return function() {
                 window.open(hotel.url, '_blank');
             }
         })(hotel);
 
-        // Create the button to add the hotel to the cart and direct the user to the cart
         const goButtonTwo = document.createElement('button');
         goButtonTwo.innerText = 'Add to Trips';
-        (function(index) { // This function is necessary for each button to have a different index
+        goButtonTwo.className = 'button'; // Add the new button class
+        (function(index) {
             goButtonTwo.addEventListener("click", function() {
                 let hotelXNameTemp = 'hotel' + index + 'name';
                 sessionStorage.setItem(hotelXNameTemp, hotelsArray[index].hotel_name);
-                window.location.href = 'cart?num=' + index; // Actually passes which hotel was selected
+                window.location.href = 'cart?num=' + index;
             });
         })(i);
 
+        const buttonContainer = document.createElement('div');
+        buttonContainer.className = 'button-container';
 
-        // Wrap the hotel card
         hotelCardHolder.append(hotelImage);
         hotelCardHolder.append(hotelName);
         hotelCardHolder.append(hotelAddress);
-        hotelCardHolder.append(hotelReviewScore); // Add the review score to the card
-        hotelCardHolder.append(goButton); // Add the "Go" button to the card
-
-        hotelCardHolder.append(goButtonTwo);
-
+        hotelCardHolder.append(hotelReviewScore);
+        buttonContainer.append(goButton);
+        buttonContainer.append(goButtonTwo);
+        hotelCardHolder.append(buttonContainer);
         imageContainer.append(hotelCardHolder);
-
     }
-
 }
+
 
 function loadCart() { // This function is called when the cart page is loaded
     let sessionOutput = sessionStorage.getItem('hotel' + window.location.href.split('=')[1] + 'name');
