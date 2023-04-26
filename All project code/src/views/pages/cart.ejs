@@ -10,17 +10,19 @@
     <link rel="stylesheet" type="text/css" href="/weather.css">
     <link rel="stylesheet" type="text/css" href="/home.css">
     <script src="/main.js"></script>
+
 </head>
 
 <body onLoad="loadCart()">
     <%- include ('../partials/header') %>
-    <%- include ('../partials/menu') %>
-    <main>
-        <div class="container">
-            <div id="cartHotelData">Cart could not load</div>
-        </div>
-    </main>
-    <%- include ('../partials/footer') %>
+        <%- include ('../partials/menu') %>
+            <main>
+                <div class="container">
+                    <div id="cart-container"></div>
+                    <div id="cartHotelData">Cart could not load</div>
+                </div>
+            </main>
+            <%- include ('../partials/footer') %>
 </body>
 
 </html>

@@ -235,7 +235,7 @@ function listHotels(hotelsArray) {
 
         // Create the button to add the hotel to the cart and direct the user to the cart
         const goButtonTwo = document.createElement('button');
-        goButtonTwo.innerText = 'Add to Cart';
+        goButtonTwo.innerText = 'Add to Trips';
         (function(index) { // This function is necessary for each button to have a different index
             goButtonTwo.addEventListener("click", function() {
                 let hotelXNameTemp = 'hotel' + index + 'name';
