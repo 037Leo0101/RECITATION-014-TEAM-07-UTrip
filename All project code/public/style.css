@@ -301,9 +301,51 @@ table {
 
 .weather-table {
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
 .hotels-table {
     margin-left: auto;
     margin-right: auto;
+}
+
+table {
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+
+td {
+    padding: 10px;
+    text-align: center;
+}
+
+.temperature-label {
+    font-weight: bold;
+    padding-right: 10px;
+}
+
+#cityName {
+    text-align: center;
+}
+
+.temperature-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.temperature-container div {
+    line-height: 0.5;
+}
+
+#temp,
+#temp_max,
+#temp_min {
+    font-size: 30px;
 }

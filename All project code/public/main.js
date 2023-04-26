@@ -13,27 +13,49 @@ function getWeather(cityName) {
             }
             return response.json();
         })
-        .then(function(data) {
-            // const tempCelsius = data.main.temp - 273.15; // Convert Kelvin to Celsius
-            // const tempMaxCelsius = data.main.temp_max - 273.15;
-            // const tempMinCelsius = data.main.temp_min - 273.15;
-            // const sunrise = data.sys.sunrise;
-            // const sunset = data.sys.sunset;
-            // var dateSunrise = new Date(0);
-            // var dateSunset = new Date(0);
-            // dateSunrise.setUTCSeconds(sunrise);
-            // dateSunset.setUTCSeconds(sunset);
-            // document.getElementById("temp").innerText = `${tempCelsius.toFixed(2)} °C`; // Display the temperature in Celsius// Display the temperature in Celsius
-            // document.getElementById("temp_max").innerText = `High ${tempMaxCelsius.toFixed(2)} °C`;
-            // document.getElementById("temp_min").innerText = `Low ${tempMinCelsius.toFixed(2)} °C`;
-            // document.getElementById("sunrise").innerText = `Sunrise ${dateSunrise.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})} `;
-            // document.getElementById("sunset").innerText = `Sunset ${dateSunset.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})} `;
-        })
-        .catch(function(error) {
-            document.getElementById("temp").innerText = error.message;
+        // .then(function(data) {
+        //     const tempCelsius = data.main.temp - 273.15; // Convert Kelvin to Celsius
+        //     const tempMaxCelsius = data.main.temp_max - 273.15;
+        //     const tempMinCelsius = data.main.temp_min - 273.15;
+        //     const sunrise = data.sys.sunrise;
+        //     const sunset = data.sys.sunset;
+        //     var dateSunrise = new Date(0);
+        //     var dateSunset = new Date(0);
+        //     dateSunrise.setUTCSeconds(sunrise);
+        //     dateSunset.setUTCSeconds(sunset);
+        //     document.getElementById("cityName").innerText = data.name; // Display the city name
+        //     document.getElementById("temp").innerText = `${tempCelsius.toFixed(2)} °C`; // Display the temperature in Celsius// Display the temperature in Celsius
+        //     document.getElementById("temp_max").innerText = `High ${tempMaxCelsius.toFixed(2)} °C`;
+        //     document.getElementById("temp_min").innerText = `Low ${tempMinCelsius.toFixed(2)} °C`;
+        //     // document.getElementById("sunrise").innerText = `Sunrise ${dateSunrise.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})} `;
+        //     // document.getElementById("sunset").innerText = `Sunset ${dateSunset.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})} `;
+        // })
 
-            console.log(error);
-        });
+    .then(function(data) {
+        const tempCelsius = data.main.temp - 273.15; // Convert Kelvin to Celsius
+        const tempMaxCelsius = data.main.temp_max - 273.15;
+        const tempMinCelsius = data.main.temp_min - 273.15;
+        const sunrise = data.sys.sunrise;
+        const sunset = data.sys.sunset;
+        var dateSunrise = new Date(0);
+        var dateSunset = new Date(0);
+        dateSunrise.setUTCSeconds(sunrise);
+        dateSunset.setUTCSeconds(sunset);
+        const cityNameHeader = document.getElementById("cityName");
+        cityNameHeader.innerText = `${cityName}`;
+
+        document.getElementById("temp").innerText = `${tempCelsius.toFixed(0)} °C`; // Display the temperature in Celsius
+        document.getElementById("temp_max").innerText = `High ${tempMaxCelsius.toFixed(0)} °C`;
+        document.getElementById("temp_min").innerText = `Low ${tempMinCelsius.toFixed(0)} °C`;
+    })
+
+
+
+    .catch(function(error) {
+        document.getElementById("temp").innerText = error.message;
+
+        console.log(error);
+    });
 
     const urlWeek = `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=7e675e2b2c0bd91ed1e3b2c16a408a27`;
 
@@ -103,8 +125,15 @@ function displayWeeklyData(data) {
 
         const dayHeader = document.createElement("td");
         const date = new Date(dayData.dt_txt);
-        const options = { weekday: "long", month: "short", day: "numeric" };
-        const formattedDate = date.toLocaleDateString("en-US", options);
+        const options = {
+            weekday: "long",
+            month: "long",
+            day: "numeric",
+            hour: "numeric",
+            minute: "2-digit",
+            hourCycle: "h12"
+        };
+        const formattedDate = date.toLocaleString("en-US", options);
         dayHeader.innerText = formattedDate;
         dayContainer.appendChild(dayHeader);
 
