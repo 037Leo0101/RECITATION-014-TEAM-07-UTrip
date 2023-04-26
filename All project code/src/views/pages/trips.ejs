@@ -20,6 +20,22 @@
                 <div class="container">
                     <div id="cart-container"></div>
                     <div id="cartHotelData">Trips could not load</div>
+                    <button id="share-trip-button">Share Trip</button>
+                    <script>
+                        const shareTripButton = document.getElementById("share-trip-button");
+                        shareTripButton.addEventListener("click", () => {
+                          // Define the social media links
+                          const facebookLink = "https://www.facebook.com/share.php?u=https://example.com/trip";
+                          const twitterLink = "https://twitter.com/intent/tweet?url=https://example.com/trip&text=Check out my trip!";
+                          const instagramLink = "https://www.instagram.com/mytrip/";
+                          
+                          // Open the links in new windows or tabs when the button is clicked
+                          window.open(facebookLink, "_blank");
+                          window.open(twitterLink, "_blank");
+                          window.open(instagramLink, "_blank");
+                        });
+                      </script>
+
                 </div>
             </main>
             <%- include ('../partials/footer') %>
