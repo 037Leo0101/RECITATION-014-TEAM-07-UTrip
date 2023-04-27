@@ -522,7 +522,7 @@ function listHotels(hotelsArray) {
             goButtonTwo.addEventListener("click", function() {
                 let hotelXNameTemp = 'hotel' + index + 'name';
                 sessionStorage.setItem(hotelXNameTemp, hotelsArray[index].hotel_name);
-                window.location.href = 'cart?num=' + index;
+                window.location.href = 'trips?num=' + index;
             });
         })(i);
 
