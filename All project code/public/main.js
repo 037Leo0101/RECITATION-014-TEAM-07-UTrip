@@ -338,6 +338,10 @@ function listHotels(hotelsArray) {
         hotelImage.className = 'image-of-hotel';
         hotelImage.src = hotelsArray[i].main_photo_url;
 
+        const hotelReviewScore = document.createElement('p');
+        hotelReviewScore.className = 'review-score-of-hotel';
+        hotelReviewScore.innerText = `Review Score: ${hotelsArray[i].review_score}`;
+
         const hotelName = document.createElement('h1');
         hotelName.className = 'name-of-hotel';
         hotelName.innerText = hotelsArray[i].hotel_name;
@@ -346,11 +350,8 @@ function listHotels(hotelsArray) {
         hotelAddress.className = 'address-of-hotel';
         hotelAddress.innerText = hotelsArray[i].address;
 
-        const hotelReviewScore = document.createElement('p');
-        hotelReviewScore.className = 'review-score-of-hotel';
-        hotelReviewScore.innerText = `Review Score: ${hotelsArray[i].review_score}`;
-
         // ...
+
         const goButton = document.createElement('button');
         goButton.innerText = 'Visit';
         goButton.className = 'button'; // Add the new button class
@@ -371,19 +372,20 @@ function listHotels(hotelsArray) {
             });
         })(i);
 
-        const buttonContainer = document.createElement('div');
-        buttonContainer.className = 'button-container';
+        // Add all the elements to the hotel card holder
+        hotelCardHolder.appendChild(hotelImage);
+        hotelCardHolder.appendChild(hotelReviewScore);
+        hotelCardHolder.appendChild(hotelName);
+        hotelCardHolder.appendChild(hotelAddress);
+        hotelCardHolder.appendChild(goButton);
+        hotelCardHolder.appendChild(goButtonTwo);
 
-        hotelCardHolder.append(hotelImage);
-        hotelCardHolder.append(hotelName);
-        hotelCardHolder.append(hotelAddress);
-        hotelCardHolder.append(hotelReviewScore);
-        buttonContainer.append(goButton);
-        buttonContainer.append(goButtonTwo);
-        hotelCardHolder.append(buttonContainer);
-        imageContainer.append(hotelCardHolder);
+        // Add the hotel card holder to the image container
+        imageContainer.appendChild(hotelCardHolder);
     }
 }
+
+
 
 
 function loadCart() { // This function is called when the cart page is loaded
