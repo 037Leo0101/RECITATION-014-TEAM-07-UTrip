@@ -319,6 +319,160 @@ function getLocation(cityName) {
 
 }
 
+
+function displayWeeklyData(data) {
+    const list = data.list;
+    const weeklyDataContainer = document.getElementById("weekly-data");
+    weeklyDataContainer.innerHTML = ""; // Clear the previous data
+
+    const table = document.createElement("table");
+    table.className = "weather-table";
+
+    const headerRow = document.createElement("tr");
+
+    const hourHeader = document.createElement("th"); // New table header for hour
+    hourHeader.innerText = "Hour";
+    headerRow.appendChild(hourHeader);
+
+    const dayHeader = document.createElement("th");
+    dayHeader.innerText = "Day";
+    headerRow.appendChild(dayHeader);
+
+    const weatherIconHeader = document.createElement("th");
+    weatherIconHeader.innerText = " ";
+    headerRow.appendChild(weatherIconHeader);
+
+    const maxTempHeader = document.createElement("th");
+    maxTempHeader.innerText = "High";
+    headerRow.appendChild(maxTempHeader);
+
+    const minTempHeader = document.createElement("th");
+    minTempHeader.innerText = "Low";
+    headerRow.appendChild(minTempHeader);
+
+    const weatherDescriptionHeader = document.createElement("th");
+    weatherDescriptionHeader.innerText = "Weather";
+    headerRow.appendChild(weatherDescriptionHeader);
+
+    table.appendChild(headerRow);
+
+    for (let i = 0; i < list.length; i++) {
+        const dayData = list[i];
+        const maxTemp = dayData.main.temp_max - 273.15; // Convert Kelvin to Celsius
+        const minTemp = dayData.main.temp_min - 273.15; // Convert Kelvin to Celsius
+        const weatherDescription =
+            dayData.weather[0].description.charAt(0).toUpperCase() +
+            dayData.weather[0].description.slice(1);
+        const weatherIconCode = dayData.weather[0].icon;
+        const weatherIconUrl = `https://openweathermap.org/img/wn/${weatherIconCode}@2x.png`;
+
+        const dayContainer = document.createElement("tr");
+
+        const hourCell = document.createElement("td"); // New table data cell for hour
+        const date = new Date(dayData.dt_txt);
+        let hour = date.getHours();
+        let amOrPm = hour < 12 ? "AM" : "PM";
+        hour = hour % 12 || 12;
+        hourCell.innerText = `${hour}:00 ${amOrPm}`;
+        dayContainer.appendChild(hourCell);
+
+        const dayHeaderCell = document.createElement("td");
+        const options = { weekday: "long", month: "short", day: "numeric" };
+        const formattedDate = date.toLocaleDateString("en-US", options);
+        dayHeaderCell.innerText = formattedDate;
+        dayContainer.appendChild(dayHeaderCell);
+
+        const weatherIconCell = document.createElement("td");
+        const weatherIcon = document.createElement("img");
+        weatherIcon.src = weatherIconUrl;
+        weatherIcon.alt = weatherDescription;
+        weatherIconCell.appendChild(weatherIcon);
+        dayContainer.appendChild(weatherIconCell);
+
+        const maxTempCell = document.createElement("td");
+        maxTempCell.innerText = `${maxTemp.toFixed(0)}°C`;
+        maxTempCell.className = "temp-cell max-temp";
+        dayContainer.appendChild(maxTempCell);
+
+        const minTempCell = document.createElement("td");
+        minTempCell.innerText = `${minTemp.toFixed(0)}°C`;
+        minTempCell.className = "temp-cell min-temp";
+        dayContainer.appendChild(minTempCell);
+
+        const weatherDescriptionCell = document.createElement("td");
+        weatherDescriptionCell.className = "weather-description-cell";
+        weatherDescriptionCell.innerText = weatherDescription;
+        dayContainer.appendChild(weatherDescriptionCell);
+
+        table.appendChild(dayContainer);
+    }
+
+
+
+
+    weeklyDataContainer.appendChild(table);
+}
+
+
+
+
+
+
+
+function getCityID() {
+    const options = {
+        method: 'GET',
+        headers: {
+            'X-RapidAPI-Key': 'ed6ae091f7msh568fc8543e911fbp10257ejsn747206a77891',
+            'X-RapidAPI-Host': 'apidojo-booking-v1.p.rapidapi.com'
+        }
+    };
+
+}
+
+function getLocation(cityName) {
+
+    let tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    let tomorrowDateString = tomorrow.toISOString().split('T')[0];
+    let nextWeekDate = new Date(tomorrow.getTime() + 7 * 24 * 60 * 60 * 1000);
+
+    let nextWeekDateString = nextWeekDate.toISOString().split('T')[0];
+    let dateObject = {
+        "tomorrowDate": tomorrowDateString,
+        "nextWeekDate": nextWeekDateString
+    };
+
+    const options = {
+        method: 'GET',
+        headers: {
+            'X-RapidAPI-Key': 'ed6ae091f7msh568fc8543e911fbp10257ejsn747206a77891',
+            'X-RapidAPI-Host': 'apidojo-booking-v1.p.rapidapi.com'
+        }
+    };
+    //gets the cityID
+    fetch(`https://apidojo-booking-v1.p.rapidapi.com/locations/auto-complete?text=${cityName}&languagecode=en-us`, options)
+        .then(response => response.json())
+        .then(response => {
+            console.log("hello", response)
+
+
+            cityID = response[0].dest_id;
+
+            //Gets the Hotels List Information
+            fetch(`https://apidojo-booking-v1.p.rapidapi.com/properties/list?offset=0&arrival_date=${dateObject.tomorrowDate}&departure_date=${dateObject.nextWeekDate}&guest_qty=1&dest_ids=${cityID}&room_qty=1&search_type=city&children_qty=2&children_age=5%2C7&search_id=none&price_filter_currencycode=USD&order_by=popularity&languagecode=en-us&travel_purpose=leisure`, options)
+                .then(response => response.json())
+                .then(response => {
+                    console.log(response)
+                    listHotels(response.result)
+                })
+                .catch(err => console.error(err));
+        })
+        .catch(err => console.error(err));
+
+}
+
 function listHotels(hotelsArray) {
     const imageContainer = document.getElementById('hotels');
     imageContainer.innerHTML = "";
@@ -338,6 +492,10 @@ function listHotels(hotelsArray) {
         hotelImage.className = 'image-of-hotel';
         hotelImage.src = hotelsArray[i].main_photo_url;
 
+        const hotelReviewScore = document.createElement('p');
+        hotelReviewScore.className = 'review-score-of-hotel';
+        hotelReviewScore.innerText = `Review Score: ${hotelsArray[i].review_score}`;
+
         const hotelName = document.createElement('h1');
         hotelName.className = 'name-of-hotel';
         hotelName.innerText = hotelsArray[i].hotel_name;
@@ -346,11 +504,8 @@ function listHotels(hotelsArray) {
         hotelAddress.className = 'address-of-hotel';
         hotelAddress.innerText = hotelsArray[i].address;
 
-        const hotelReviewScore = document.createElement('p');
-        hotelReviewScore.className = 'review-score-of-hotel';
-        hotelReviewScore.innerText = `Review Score: ${hotelsArray[i].review_score}`;
-
         // ...
+
         const goButton = document.createElement('button');
         goButton.innerText = 'Visit';
         goButton.className = 'button'; // Add the new button class
@@ -367,21 +522,20 @@ function listHotels(hotelsArray) {
             goButtonTwo.addEventListener("click", function() {
                 let hotelXNameTemp = 'hotel' + index + 'name';
                 sessionStorage.setItem(hotelXNameTemp, hotelsArray[index].hotel_name);
-                window.location.href = 'trips?num=' + index;
+                window.location.href = 'cart?num=' + index;
             });
         })(i);
 
-        const buttonContainer = document.createElement('div');
-        buttonContainer.className = 'button-container';
+        // Add all the elements to the hotel card holder
+        hotelCardHolder.appendChild(hotelImage);
+        hotelCardHolder.appendChild(hotelReviewScore);
+        hotelCardHolder.appendChild(hotelName);
+        hotelCardHolder.appendChild(hotelAddress);
+        hotelCardHolder.appendChild(goButton);
+        hotelCardHolder.appendChild(goButtonTwo);
 
-        hotelCardHolder.append(hotelImage);
-        hotelCardHolder.append(hotelName);
-        hotelCardHolder.append(hotelAddress);
-        hotelCardHolder.append(hotelReviewScore);
-        buttonContainer.append(goButton);
-        buttonContainer.append(goButtonTwo);
-        hotelCardHolder.append(buttonContainer);
-        imageContainer.append(hotelCardHolder);
+        // Add the hotel card holder to the image container
+        imageContainer.appendChild(hotelCardHolder);
     }
 }
 
