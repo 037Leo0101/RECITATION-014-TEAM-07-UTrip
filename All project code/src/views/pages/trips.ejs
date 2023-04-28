@@ -21,18 +21,37 @@
                     <div id="cart-container"></div>
                     <div id="cartHotelData">Trips could not load</div>
                     <button id="share-trip-button">Share Trip</button>
-                    <script>
+                        <button id="instagram-button" style="display:none">Share on Instagram</button>
+                        <button id="facebook-button" style="display:none">Share on Facebook</button>
+                        <button id="twitter-button" style="display:none">Share on Twitter</button>
+                        </div>
+                        <script>
                         const shareTripButton = document.getElementById("share-trip-button");
+                        const instagramButton = document.getElementById("instagram-button");
+                        const facebookButton = document.getElementById("facebook-button");
+                        const twitterButton = document.getElementById("twitter-button");
+
                         shareTripButton.addEventListener("click", () => {
-                          // Define the social media links
-                          const facebookLink = "https://www.facebook.com/share.php?u=https://example.com/trip";
-                          const twitterLink = "https://twitter.com/intent/tweet?url=https://example.com/trip&text=Check out my trip!";
-                          const instagramLink = "https://www.instagram.com/mytrip/";
-                          
-                          // Open the links in new windows or tabs when the button is clicked
-                          window.open(facebookLink, "_blank");
-                          window.open(twitterLink, "_blank");
-                          window.open(instagramLink, "_blank");
+                            instagramButton.style.display = "inline-block";
+                            facebookButton.style.display = "inline-block";
+                            twitterButton.style.display = "inline-block";
+                        });
+
+                        instagramButton.addEventListener("click", () => {
+                            const instagramLink = "https://www.instagram.com/accounts/login/";
+                            window.open(instagramLink, "_blank");
+                        });
+
+                        facebookButton.addEventListener("click", () => {
+                            const facebookLink =
+                            "https://www.facebook.com/login.php";
+                            window.open(facebookLink, "_blank");
+                        });
+
+                        twitterButton.addEventListener("click", () => {
+                            const twitterLink =
+                            "https://twitter.com/login";
+                            window.open(twitterLink, "_blank");
                         });
                       </script>
 
