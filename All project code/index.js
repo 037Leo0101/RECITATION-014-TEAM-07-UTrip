@@ -76,11 +76,6 @@ app.get('/', (req, res) => {
     res.redirect('/login'); //this will call the /login route in the API
 });
 
-app.get('/trips', (req, res) => {
-    res.render('pages/trips');
-});
-
-
 // Route: /register
 // Method: GET
 app.get('/register', (req, res) => {
@@ -204,6 +199,48 @@ app.get('/home', async(req, res) => {
     // }
     res.render('pages/home');
 
+});
+
+app.get('/trips', (req, res) => {
+    const hotelRequest = "SELECT * FROM hotels WHERE username = '" + req.session.user.username + "'";
+    db.any(hotelRequest).then(async hotelList => {
+        const hotels = hotelList.map(hotel => ({
+            hotelName: hotel.hotelname,
+            hotelURL: 'Link: ' + hotel.hotelurl,
+            hotelUser: hotel.username
+        }));
+        res.render('pages/trips', {
+            hotels
+        });
+    }).catch(error => {
+        console.log(error);
+        res.render('pages/trips', {
+            hotels: []
+        });
+    });
+});
+
+app.post('/trips', async(req, res) => {
+    console.log(req.body);
+    console.log(req.session.user.username);
+    await db.query('INSERT INTO hotels (hotelName, hotelURL, username) VALUES ($1, $2, $3)', [req.body.hotelName, req.body.hotelURL, req.session.user.username]); //add username check
+    const hotelRequest = "SELECT * FROM hotels WHERE username = '" + req.session.user.username + "'";
+    console.log('hotelRequest: ' + hotelRequest);
+    db.any(hotelRequest).then(async hotelList => {
+        const hotels = hotelList.map(hotel => ({
+            hotelName: hotel.hotelname,
+            hotelURL: 'Link: ' + hotel.hotelurl,
+            username: hotel.username
+        }));
+        res.render('pages/trips', {
+            hotels
+        });
+    }).catch(error => {
+        console.log(error);
+        res.render('pages/trips', {
+            hotels: []
+        });
+    });
 });
 
 app.get("/logout", (req, res) => {

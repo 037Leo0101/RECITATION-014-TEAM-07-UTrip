@@ -10,16 +10,27 @@
     <link rel="stylesheet" type="text/css" href="/weather.css">
     <link rel="stylesheet" type="text/css" href="/home.css">
     <script src="/main.js"></script>
-
+    <style>
+        form {display: none};
+    </style>
 </head>
 
-<body onLoad="loadTrips()">
+<body>
     <%- include ('../partials/header') %>
         <%- include ('../partials/menu') %>
             <main>
                 <div class="container">
-                    <div id="cart-container"></div>
-                    <div id="cartHotelData">Trips could not load</div>
+                    <% if (hotels.length > 0) { %>
+                        <% hotels.forEach(hotel => { %>
+                            <div class="hotel">
+                                <p><%- hotel.hotelName %></p>
+                                <p><%- hotel.hotelURL %></p>
+                                <p><%- hotel.username %></p>
+                            </div>
+                        <% }) %>
+                    <% } else { %>
+                        <div id="cartHotelData">No hotels saved. Head to the home page to find some</div>
+                    <% } %>
                     <button id="share-trip-button">Share Trip</button>
                         <button id="instagram-button" style="display:none">Share on Instagram</button>
                         <button id="facebook-button" style="display:none">Share on Facebook</button>

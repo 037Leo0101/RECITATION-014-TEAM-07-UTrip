@@ -526,13 +526,39 @@ function listHotels(hotelsArray) {
             });
         })(i);
 
+        const hiddenForm = document.createElement('form');
+        hiddenForm.method = 'post';
+        hiddenForm.display = 'none';
+        hiddenForm.name = 'hiddenFormHotel';
+        hiddenForm.action = '/trips';
+
+        const inputHotelName = document.createElement('input');
+        inputHotelName.type = 'hidden';
+        inputHotelName.name = 'hotelName';
+        inputHotelName.value = hotelsArray[i].hotel_name;
+        hiddenForm.append(inputHotelName);
+
+        const inputHotelURL = document.createElement('input');
+        inputHotelURL.type = 'hidden';
+        inputHotelURL.name = 'hotelURL';
+        inputHotelURL.value = hotelsArray[i].url;
+        hiddenForm.append(inputHotelURL);
+
+        const addHotelButton = document.createElement('button');
+        addHotelButton.textContent = 'Add hotel';
+        addHotelButton.addEventListener('click', () => {
+            hiddenForm.submit();
+        });
+
         // Add all the elements to the hotel card holder
         hotelCardHolder.appendChild(hotelImage);
         hotelCardHolder.appendChild(hotelReviewScore);
         hotelCardHolder.appendChild(hotelName);
         hotelCardHolder.appendChild(hotelAddress);
         hotelCardHolder.appendChild(goButton);
-        hotelCardHolder.appendChild(goButtonTwo);
+        //hotelCardHolder.appendChild(goButtonTwo);
+        hotelCardHolder.appendChild(hiddenForm);
+        hotelCardHolder.appendChild(addHotelButton);
 
         // Add the hotel card holder to the image container
         imageContainer.appendChild(hotelCardHolder);
@@ -540,7 +566,7 @@ function listHotels(hotelsArray) {
 }
 
 
-function loadTrips() { // This function is called when the cart page is loaded
+/*function loadTrips() { // This function is called when the cart page is loaded
     let hotelNum = window.location.href.split('=')[1];
 
     let savedHotels = (sessionStorage.getItem('savedHotels'));
@@ -559,7 +585,7 @@ function loadTrips() { // This function is called when the cart page is loaded
     });
 
     document.getElementById('cartHotelData').innerText = innerTexting;
-};
+};*/
 
 window.onload = function() {
     document.getElementById("sendButton").onclick = function() {
