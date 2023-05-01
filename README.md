@@ -20,6 +20,7 @@ Evan Tseng - Evts8505
 3. Technology Stack used for the project:
 
 Front end: Javascript, EJS
+
 Backend:   SQL
 
 4. Prerequisites to run the application - Any software that needs to be installed to run the application:
