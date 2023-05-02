@@ -1,0 +1,65 @@
+button {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: #333;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 8px;
+    padding: 8px 16px;
+    transition: all 0.2s ease-in-out;
+}
+
+button:hover {
+    background-color: #ccc;
+    border-color: #999;
+    color: #fff;
+}
+
+#share-trip-button {
+    background-color: #ee992a;
+    border-color: #ee992a;
+    color: #fff;
+    margin-right: 0;
+}
+
+#share-trip-button:hover {
+    background-color: #ffdb70;
+    border-color: #ffdb70;
+}
+
+#instagram-button {
+    background-color: #f45187;
+    border-color: #e1306c;
+    color: #fff;
+    display: none;
+}
+
+#instagram-button:hover {
+    background-color: #b11c4d;
+    border-color: #b11c4d;
+}
+
+#facebook-button {
+    background-color: #3b5998;
+    border-color: #3b5998;
+    color: #fff;
+    display: none;
+}
+
+#facebook-button:hover {
+    background-color: #2d4373;
+    border-color: #2d4373;
+}
+
+#twitter-button {
+    background-color: #1da1f2;
+    border-color: #1da1f2;
+    color: #fff;
+    display: none;
+}
+
+#twitter-button:hover {
+    background-color: #0c7bbf;
+    border-color: #0c7bbf;
+}
