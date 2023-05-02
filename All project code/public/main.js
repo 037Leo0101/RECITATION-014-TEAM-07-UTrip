@@ -587,15 +587,45 @@ function listHotels(hotelsArray) {
     document.getElementById('cartHotelData').innerText = innerTexting;
 };*/
 
-const tripDateInput = document.getElementById("tripDateInput");
+// document.addEventListener('DOMContentLoaded', function() {
+//     var tripDateInput = document.getElementById('tripDateInput');
+//     var tripDatePicker = new Picker(tripDateInput, {
+//         format: 'yyyy-mm-dd', // Date format
+//         min: new Date(), // Set the minimum date to today
+//         // Date picker options go here
+//     });
+// });
 
-// Load the saved notes from local storage (if any)
-tripDateInput.value = localStorage.getItem("tripNotes");
+// var tripDatePicker = new Picker(tripDateInput, {
+//     format: 'dd mmm yyyy', // Date format like 01 Jan 2024
+//     defaultDate: new Date(2024, 0, 1), // Set the default date to January 1, 2024
+//     disable: [ // Disable certain dates
+//         new Date(2024, 0, 2),
+//         new Date(2024, 0, 3),
+//         new Date(2024, 0, 4)
+//     ]
+// });
 
-// Save the notes to local storage whenever they change
-tripDateInput.addEventListener("input", () => {
-    localStorage.setItem("tripNotes", tripDateInput.value);
-});
+// var tripDatePicker = flatpickr("#tripDateInput", {
+//     clickOpens: true,
+//     // Calendar options go here
+// });
+
+// const tripDateInput = document.getElementById("tripDateInput");
+
+// tripDateInput.addEventListener("keydown", (event) => {
+//     if (event.key === "Enter") {
+//         // Add a newline character to the text
+//         tripDateInput.value += "\n";
+//         // Prevent the default behavior of the "enter" key
+//         event.preventDefault();
+//     }
+// });
+
+
+
+
+
 
 
 window.onload = function() {

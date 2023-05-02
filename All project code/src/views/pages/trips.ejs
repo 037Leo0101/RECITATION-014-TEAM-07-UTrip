@@ -25,8 +25,6 @@
                         <h1>Here are your details for the trip!</h1>
                         <% hotels.forEach(hotel => { %>
                             <div class="hotel">
-
-
                                 <p>
                                     <%= hotel.hotelName %>
                                 </p>
@@ -48,39 +46,37 @@
                 </div>
                 <script>
                     const shareTripButton = document.getElementById("share-trip-button");
-                    const instagramButton = document.getElementById("instagram-button");
+                    // const instagramButton = document.getElementById("instagram-button");
                     const facebookButton = document.getElementById("facebook-button");
                     const twitterButton = document.getElementById("twitter-button");
-
                     let isButtonsVisible = false; // initially, buttons are not visible
-
                     shareTripButton.addEventListener("click", () => {
                         if (isButtonsVisible) { // if buttons are visible, hide them
-                            instagramButton.style.display = "none";
+                            // instagramButton.style.display = "none";
                             facebookButton.style.display = "none";
                             twitterButton.style.display = "none";
                             isButtonsVisible = false; // update the state
                         } else { // if buttons are hidden, show them
-                            instagramButton.style.display = "inline-block";
+                            // instagramButton.style.display = "inline-block";
                             facebookButton.style.display = "inline-block";
                             twitterButton.style.display = "inline-block";
                             isButtonsVisible = true; // update the state
                         }
                     });
-
-                    instagramButton.addEventListener("click", () => {
-                        const instagramLink = "https://www.instagram.com/accounts/login/";
-                        window.open(instagramLink, "_blank");
-                    });
-
+                    // instagramButton.addEventListener("click", () => {
+                    //     const instagramLink = "https://www.instagram.com/accounts/login/";
+                    //     window.open(instagramLink, "_blank");
+                    // });
                     facebookButton.addEventListener("click", () => {
-                        const facebookLink = "https://www.facebook.com/login.php";
-                        window.open(facebookLink, "_blank");
+                        const url = 'http://recitation-014-team-07.eastus.cloudapp.azure.com:3000/trips';
+                        const facebookURL = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+                        window.open(facebookURL, '_blank');
                     });
-
                     twitterButton.addEventListener("click", () => {
-                        const twitterLink = "https://twitter.com/login";
-                        window.open(twitterLink, "_blank");
+                        const text = 'Check out my trip!';
+                        const url = 'http://recitation-014-team-07.eastus.cloudapp.azure.com:3000/trips';
+                        const twitterURL = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+                        window.open(twitterURL, '_blank');
                     });
                 </script>
 
