@@ -1,0 +1,72 @@
+.hotel {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2);
+    margin: 16px;
+    padding: 16px;
+}
+
+.hotel p {
+    font-size: 16px;
+    margin: 8px 0;
+}
+
+.hotel p:first-child {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.button {
+    background-color: #007aff;
+    border-color: #007aff;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 8px;
+    padding: 8px 16px;
+    transition: all 0.2s ease-in-out;
+}
+
+.button:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+#tripDateInput {
+    border: none;
+    border-bottom: 2px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    width: 100%;
+}
+
+
+/* .hotel {
+    margin-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+} */
+
+.hotel {
+    margin-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+    font-weight: bold;
+}
+
+.hotel p:first-of-type {
+    font-weight: bold;
+}

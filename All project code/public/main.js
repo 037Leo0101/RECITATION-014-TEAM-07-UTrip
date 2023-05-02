@@ -587,6 +587,17 @@ function listHotels(hotelsArray) {
     document.getElementById('cartHotelData').innerText = innerTexting;
 };*/
 
+const tripDateInput = document.getElementById("tripDateInput");
+
+// Load the saved notes from local storage (if any)
+tripDateInput.value = localStorage.getItem("tripNotes");
+
+// Save the notes to local storage whenever they change
+tripDateInput.addEventListener("input", () => {
+    localStorage.setItem("tripNotes", tripDateInput.value);
+});
+
+
 window.onload = function() {
     document.getElementById("sendButton").onclick = function() {
         cityName = document.getElementById("cityNameInput").value;
