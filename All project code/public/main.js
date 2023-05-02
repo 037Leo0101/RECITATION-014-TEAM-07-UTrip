@@ -587,6 +587,47 @@ function listHotels(hotelsArray) {
     document.getElementById('cartHotelData').innerText = innerTexting;
 };*/
 
+// document.addEventListener('DOMContentLoaded', function() {
+//     var tripDateInput = document.getElementById('tripDateInput');
+//     var tripDatePicker = new Picker(tripDateInput, {
+//         format: 'yyyy-mm-dd', // Date format
+//         min: new Date(), // Set the minimum date to today
+//         // Date picker options go here
+//     });
+// });
+
+// var tripDatePicker = new Picker(tripDateInput, {
+//     format: 'dd mmm yyyy', // Date format like 01 Jan 2024
+//     defaultDate: new Date(2024, 0, 1), // Set the default date to January 1, 2024
+//     disable: [ // Disable certain dates
+//         new Date(2024, 0, 2),
+//         new Date(2024, 0, 3),
+//         new Date(2024, 0, 4)
+//     ]
+// });
+
+// var tripDatePicker = flatpickr("#tripDateInput", {
+//     clickOpens: true,
+//     // Calendar options go here
+// });
+
+// const tripDateInput = document.getElementById("tripDateInput");
+
+// tripDateInput.addEventListener("keydown", (event) => {
+//     if (event.key === "Enter") {
+//         // Add a newline character to the text
+//         tripDateInput.value += "\n";
+//         // Prevent the default behavior of the "enter" key
+//         event.preventDefault();
+//     }
+// });
+
+
+
+
+
+
+
 window.onload = function() {
     document.getElementById("sendButton").onclick = function() {
         cityName = document.getElementById("cityNameInput").value;
