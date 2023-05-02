@@ -19,7 +19,7 @@ Evan Tseng - Evts8505
 
 3. Technology Stack used for the project:
 
-Front end: Javascript, EJS
+Front end: Javascript, EJS, CSS
 
 Backend:   SQL
 
