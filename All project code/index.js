@@ -221,9 +221,7 @@ app.get('/trips', (req, res) => {
 });
 
 app.post('/trips', async(req, res) => {
-    console.log(req.body);
-    console.log(req.session.user.username);
-    await db.query('INSERT INTO hotels (hotelName, hotelURL, username) VALUES ($1, $2, $3)', [req.body.hotelName, req.body.hotelURL, req.session.user.username]); //add username check
+    await db.query('INSERT INTO hotels (hotelName, hotelURL, username) SELECT $1, $2, $3 FROM (SELECT 1) AS tempHotels WHERE NOT EXISTS (SELECT 1 FROM hotels WHERE hotelName = $1);', [req.body.hotelName, req.body.hotelURL, req.session.user.username]); //add username check
     const hotelRequest = "SELECT * FROM hotels WHERE username = '" + req.session.user.username + "'";
     console.log('hotelRequest: ' + hotelRequest);
     db.any(hotelRequest).then(async hotelList => {
