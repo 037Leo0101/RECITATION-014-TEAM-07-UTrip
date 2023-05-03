@@ -157,58 +157,27 @@ const auth = (req, res, next) => {
 // Authentication Required
 app.use(auth);
 
-//axios
-// axios({
-//     url: `https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}`, 
-//     method: 'GET',
-//     dataType: 'json',
-//     headers: {
-//         'Accept-Encoding': 'application/json',
-//     },
-//     params: {
-//         appid: process.env.WEATHER-API_KEY,
-//         keyword: '<location>', //you can choose any artist/event here
-//         size: 1,
-//     },
-// })
-//     .then(results => {
-//         console.log(results.data); // the results will be displayed on the terminal if the docker containers are running // Send some parameters
-//     })
-//     .catch(error => {
-//         // Handle errors
-//     });
-
-
-
 // Route: /home
 // Method: GET
 app.get('/home', async(req, res) => {
-    // try {
-    //     const response = await axios.get('https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}', {
-    //         params: {
-    //             apikey: process.env.API_KEY,
-    //             keyword: 'Taylor Swift',
-    //             size: 10,
-    //         },
-    //     });
-    //     const data = response.data._embedded.events;
-    //     res.render('pages/discover', { results: data });
-    // } catch (error) {
-    //     console.error(error);
-    //     res.render('pages/discover', { results: [], error: 'Failed to fetch data' });
-    // }
     res.render('pages/home');
-
 });
 
+// Route: /trips
+// Method: GET
 app.get('/trips', (req, res) => {
     const hotelRequest = "SELECT * FROM hotels WHERE username = '" + req.session.user.username + "'";
+    
     db.any(hotelRequest).then(async hotelList => {
+        
         const hotels = hotelList.map(hotel => ({
             hotelName: hotel.hotelname,
             hotelURL: 'Link: ' + hotel.hotelurl,
-            hotelUser: hotel.username
+            hotelUser: hotel.username,
+            hotelCity: hotel.hotelcity
         }));
+        console.log('/trips hotellist', hotelList);
+
         res.render('pages/trips', {
             hotels
         });
@@ -220,16 +189,21 @@ app.get('/trips', (req, res) => {
     });
 });
 
+// Route: /trips
+// Method: POST
 app.post('/trips', async(req, res) => {
-    await db.query('INSERT INTO hotels (hotelName, hotelURL, username) SELECT $1, $2, $3 FROM (SELECT 1) AS tempHotels WHERE NOT EXISTS (SELECT 1 FROM hotels WHERE hotelName = $1);', [req.body.hotelName, req.body.hotelURL, req.session.user.username]); //add username check
+    console.log('hotelCity:', req.body.hotelCity); // add this line
+    await db.query('INSERT INTO hotels (hotelName, hotelURL, username, hotelCity) SELECT $1, $2, $3, $4 FROM (SELECT 1) AS tempHotels WHERE NOT EXISTS (SELECT 1 FROM hotels WHERE hotelName = $1);', [req.body.hotelName, req.body.hotelURL, req.session.user.username, req.body.hotelCity]);
     const hotelRequest = "SELECT * FROM hotels WHERE username = '" + req.session.user.username + "'";
     console.log('hotelRequest: ' + hotelRequest);
     db.any(hotelRequest).then(async hotelList => {
         const hotels = hotelList.map(hotel => ({
             hotelName: hotel.hotelname,
             hotelURL: 'Link: ' + hotel.hotelurl,
-            username: hotel.username
+            username: hotel.username,
+            hotelCity: hotel.hotelcity
         }));
+        console.log(hotels)
         res.render('pages/trips', {
             hotels
         });
@@ -241,6 +215,8 @@ app.post('/trips', async(req, res) => {
     });
 });
 
+// Route: /logout
+// Method: GET
 app.get("/logout", (req, res) => {
     req.session.destroy();
     res.render("pages/logout");
