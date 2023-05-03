@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <link rel="icon" href="whitePLane.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
@@ -9,44 +10,30 @@
     <link rel="stylesheet" type="text/css" href="/style.css">
     <link rel="stylesheet" type="text/css" href="/weather.css">
     <link rel="stylesheet" type="text/css" href="/home.css">
-    <link rel="icon" href="whitePLane.png">
-    <link href='/lib/themes/default.css' rel='stylesheet' />
-    <link href='/lib/themes/default.date.css' rel='stylesheet' />
-    <script src='/lib/picker.js'></script>
-    <script src='/lib/picker.date.js'></script>
 
-    <style>
-        form {
-            display: none
-        }
-        
-        ;
-    </style>
-</head>
-
-<body>
-    <%- include ('../partials/header') %>
-        <%- include ('../partials/menu') %>
+    <body>
+        <%- include ('../partials/header') %>
+            <%- include ('../partials/menu') %>
 
 
-            <main>
-                <div class="container">
-                    <input type="text" id="cityNameInput" placeholder="Take me to..." />
-                    <button id="sendButton">Plan Trip!</button>
-                    <div class="temperature-container">
-                        <h2 id="cityName"></h2>
-                        <div id="temp"></div>
-                        <div id="temp_max"></div>
-                        <div id="temp_min"></div>
+                <main>
+                    <div class="container">
+                        <input type="text" id="cityNameInput" placeholder="Take me to..." />
+                        <button id="sendButton">Plan Trip!</button>
+                        <div class="temperature-container">
+                            <h2 id="cityName"></h2>
+                            <div id="temp"></div>
+                            <div id="temp_max"></div>
+                            <div id="temp_min"></div>
+                        </div>
+                        <script src="/main.js"></script>
+                        <div id="weekly-data"></div>
+
+                        <div id="hotels" class="hotels-container"></div>
+
+
                     </div>
-                    <script src="/main.js"></script>
-                    <div id="weekly-data"></div>
-
-                    <div id="hotels" class="hotels-container"></div>
-
-
-                </div>
-            </main>
-</body>
+                </main>
+    </body>
 
 </html>
