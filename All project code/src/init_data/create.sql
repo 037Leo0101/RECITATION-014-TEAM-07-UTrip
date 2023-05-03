@@ -6,7 +6,7 @@ CREATE TABLE users(
 
 DROP TABLE IF EXISTS hotels CASCADE;
 CREATE TABLE hotels (
-    hotelname VARCHAR(99) PRIMARY KEY,
+    hotelName VARCHAR(99) PRIMARY KEY,
     hotelURL VARCHAR(99),
     username VARCHAR(50) NOT NULL REFERENCES users (username)
 );
