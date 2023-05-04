@@ -12,9 +12,6 @@
     <link rel="stylesheet" type="text/css" href="/trips.css">
     <link rel="stylesheet" type="text/css" href="/share.css">
     <link rel="stylesheet" type="text/css" href="/hotels.css">
-
-
-
 </head>
 
 <body>
@@ -31,12 +28,14 @@
                                     <%= hotel.hotelName %>
                                 </p>
                                 <p>
-                                    <%= hotel.hotelURL %>
-                                </p>
-                                <p>
                                     <%= hotel.hotelCity %>
                                 </p>
-                                
+                                <a href="<%= hotel.hotelURL %>" target="_blank" class="button">Visit</a>
+                                <form method="post" action="/tripnotes">
+                                    <input type="text" name="hotelNotes" value="<%= hotel.hotelNotes %>">
+                                    <input type="hidden" name="hotelName" value="<%= hotel.hotelName %>">
+                                    <input type="submit" value="Save notes">
+                                </form>
                             </div>
 
                             <% }) %>

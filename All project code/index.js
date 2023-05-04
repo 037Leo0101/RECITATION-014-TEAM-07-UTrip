@@ -167,17 +167,15 @@ app.get('/home', async(req, res) => {
 // Method: GET
 app.get('/trips', (req, res) => {
     const hotelRequest = "SELECT * FROM hotels WHERE username = '" + req.session.user.username + "'";
-    
+    console.log('hotelRequest: ' + hotelRequest);
     db.any(hotelRequest).then(async hotelList => {
-        
         const hotels = hotelList.map(hotel => ({
             hotelName: hotel.hotelname,
-            hotelURL: 'Link: ' + hotel.hotelurl,
-            hotelUser: hotel.username,
-            hotelCity: hotel.hotelcity
+            hotelURL: hotel.hotelurl,
+            username: hotel.username,
+            hotelCity: hotel.hotelcity,
+            hotelNotes: hotel.hotelnotes
         }));
-        console.log('/trips hotellist', hotelList);
-
         res.render('pages/trips', {
             hotels
         });
@@ -192,16 +190,46 @@ app.get('/trips', (req, res) => {
 // Route: /trips
 // Method: POST
 app.post('/trips', async(req, res) => {
-    console.log('hotelCity:', req.body.hotelCity); // add this line
     await db.query('INSERT INTO hotels (hotelName, hotelURL, username, hotelCity) SELECT $1, $2, $3, $4 FROM (SELECT 1) AS tempHotels WHERE NOT EXISTS (SELECT 1 FROM hotels WHERE hotelName = $1);', [req.body.hotelName, req.body.hotelURL, req.session.user.username, req.body.hotelCity]);
     const hotelRequest = "SELECT * FROM hotels WHERE username = '" + req.session.user.username + "'";
     console.log('hotelRequest: ' + hotelRequest);
     db.any(hotelRequest).then(async hotelList => {
         const hotels = hotelList.map(hotel => ({
             hotelName: hotel.hotelname,
-            hotelURL: 'Link: ' + hotel.hotelurl,
+            hotelURL: hotel.hotelurl,
             username: hotel.username,
-            hotelCity: hotel.hotelcity
+            hotelCity: hotel.hotelcity,
+            hotelNotes: hotel.hotelnotes
+        }));
+        //console.log('notes: ' + hotels.hotelNotes)
+        //console.log(hotels)
+        res.render('pages/trips', {
+            hotels
+        });
+    }).catch(error => {
+        console.log(error);
+        res.render('pages/trips', {
+            hotels: []
+        });
+    });
+});
+
+app.post('/tripnotes', async(req, res) => {
+    console.log('tripnotes');
+    console.log(req.body);
+    console.log("UPDATE hotels SET hotelnotes = $1 WHERE hotelname = $2", [req.body.hotelNotes, req.body.hotelName]);
+    await db.query("UPDATE hotels SET hotelnotes = $1 WHERE hotelname = $2", [req.body.hotelNotes, req.body.hotelName]);
+    console.log('successful notes');
+    res.redirect('/trips');
+    /*const hotelRequest = "SELECT * FROM hotels WHERE username = '" + req.session.user.username + "'";
+    console.log('hotelRequest: ' + hotelRequest);
+    db.any(hotelRequest).then(async hotelList => {
+        const hotels = hotelList.map(hotel => ({
+            hotelName: hotel.hotelname,
+            hotelURL: hotel.hotelurl,
+            username: hotel.username,
+            hotelCity: hotel.hotelcity,
+            hotelNotes: hotel.hotelnotes
         }));
         console.log(hotels)
         res.render('pages/trips', {
@@ -212,7 +240,7 @@ app.post('/trips', async(req, res) => {
         res.render('pages/trips', {
             hotels: []
         });
-    });
+    });*/
 });
 
 // Route: /logout
