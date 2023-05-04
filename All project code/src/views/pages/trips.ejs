@@ -65,13 +65,13 @@
                     });
                     
                     facebookButton.addEventListener("click", () => {
-                        const url = 'http://recitation-014-team-07.eastus.cloudapp.azure.com:3000/trips';
+                        const url = 'http://recitation-014-team-07-v2.eastus.cloudapp.azure.com:3000/trips';
                         const facebookURL = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
                         window.open(facebookURL, '_blank');
                     });
                     twitterButton.addEventListener("click", () => {
                         const text = 'Check out my trip!';
-                        const url = 'http://recitation-014-team-07.eastus.cloudapp.azure.com:3000/trips';
+                        const url = 'http://recitation-014-team-07-v2.eastus.cloudapp.azure.com:3000/trips';
                         const twitterURL = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
                         window.open(twitterURL, '_blank');
                     });
