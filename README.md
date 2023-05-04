@@ -42,5 +42,6 @@ In the docker-compose.yaml file, change the commands from  "command: 'npm start'
 
 7. Link to the deployed application
 
-Link to project proposal
-https://docs.google.com/document/d/11XM9Z0kFsvdfQCIc0L7xO7rIBBYtG8c6rD0-ZdbMUqQ/edit
+http://recitation-014-team-07-v2.eastus.cloudapp.azure.com:3000/login
+
+
